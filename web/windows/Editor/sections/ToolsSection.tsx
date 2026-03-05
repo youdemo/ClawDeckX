@@ -47,6 +47,12 @@ export const ToolsSection: React.FC<SectionProps> = ({ setField, getField, langu
         <SwitchField label={es.videoUnderstanding} tooltip={tip('tools.media.video.enabled')} value={g(['media', 'video', 'enabled']) !== false} onChange={v => s(['media', 'video', 'enabled'], v)} />
       </ConfigSection>
 
+      <ConfigSection title={es.pdfConfig || 'PDF'} icon="picture_as_pdf" iconColor="text-red-400" defaultOpen={false}>
+        <TextField label={es.pdfModel || 'PDF Model'} tooltip={tip('tools.pdf.model')} value={g(['pdf', 'model']) || ''} onChange={v => s(['pdf', 'model'], v)} placeholder="gpt-4o-mini" />
+        <NumberField label={es.pdfMaxBytes || 'PDF Max Bytes'} tooltip={tip('tools.pdf.maxBytes')} value={g(['pdf', 'maxBytes'])} onChange={v => s(['pdf', 'maxBytes'], v)} placeholder="10485760" />
+        <NumberField label={es.pdfMaxPages || 'PDF Max Pages'} tooltip={tip('tools.pdf.maxPages')} value={g(['pdf', 'maxPages'])} onChange={v => s(['pdf', 'maxPages'], v)} placeholder="50" />
+      </ConfigSection>
+
       <ConfigSection title={es.elevatedTools} icon="admin_panel_settings" iconColor="text-amber-500" defaultOpen={false}>
         <ArrayField label={es.allowedElevated} tooltip={tip('tools.elevated.allow')} value={g(['elevated', 'allow']) || []} onChange={v => s(['elevated', 'allow'], v)} placeholder={es.phToolName} />
       </ConfigSection>
