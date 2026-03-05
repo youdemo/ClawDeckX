@@ -915,6 +915,7 @@
   "audioCommand": "コマンド",
   "audioModelId": "モデルID",
   "audioApiKey": "APIキー",
+  "ttsOpenaiBaseUrl": "OpenAI ベースURL",
   "audioInterrupt": "発話時に中断",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

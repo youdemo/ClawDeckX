@@ -915,6 +915,7 @@
   "audioCommand": "转录命令",
   "audioModelId": "模型 ID",
   "audioApiKey": "API 密钥",
+  "ttsOpenaiBaseUrl": "OpenAI 基础 URL",
   "audioInterrupt": "打断说话",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

@@ -915,6 +915,7 @@
   "audioCommand": "الأمر",
   "audioModelId": "معرف النموذج",
   "audioApiKey": "مفتاح API",
+  "ttsOpenaiBaseUrl": "عنوان OpenAI الأساسي",
   "audioInterrupt": "المقاطعة عند الكلام",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

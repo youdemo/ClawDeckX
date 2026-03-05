@@ -915,6 +915,7 @@
   "audioCommand": "명령",
   "audioModelId": "모델 ID",
   "audioApiKey": "API Key",
+  "ttsOpenaiBaseUrl": "OpenAI 기본 URL",
   "audioInterrupt": "음성 감지 시 중단",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

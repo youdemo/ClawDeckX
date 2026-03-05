@@ -915,6 +915,7 @@
   "audioCommand": "Perintah",
   "audioModelId": "ID Model",
   "audioApiKey": "API Key",
+  "ttsOpenaiBaseUrl": "URL Dasar OpenAI",
   "audioInterrupt": "Interupsi saat Bicara",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

@@ -915,6 +915,7 @@
   "audioCommand": "Befehl",
   "audioModelId": "Modell-ID",
   "audioApiKey": "API Key",
+  "ttsOpenaiBaseUrl": "OpenAI Basis-URL",
   "audioInterrupt": "Bei Sprache unterbrechen",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

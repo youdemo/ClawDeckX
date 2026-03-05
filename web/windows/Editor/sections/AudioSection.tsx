@@ -287,6 +287,7 @@ export const AudioSection: React.FC<SectionProps> = ({ setField, getField, langu
         <TextField label={es.audioModelId} tooltip={tip('talk.modelId')} value={getField(['talk', 'modelId']) || ''} onChange={v => setField(['talk', 'modelId'], v)} placeholder={es.phModelId} />
         <TextField label={es.talkOutputFormat} tooltip={tip('talk.outputFormat')} value={getField(['talk', 'outputFormat']) || ''} onChange={v => setField(['talk', 'outputFormat'], v)} placeholder="mp3" />
         <PasswordField label={es.audioApiKey} tooltip={tip('talk.apiKey')} value={getField(['talk', 'apiKey']) || ''} onChange={v => setField(['talk', 'apiKey'], v)} />
+        <TextField label={es.ttsOpenaiBaseUrl || 'OpenAI Base URL'} tooltip={tip('talk.openai.baseUrl')} value={getField(['talk', 'openai', 'baseUrl']) || ''} onChange={v => setField(['talk', 'openai', 'baseUrl'], v)} placeholder="https://api.openai.com/v1" />
         <SwitchField label={es.audioInterrupt} tooltip={tip('talk.interruptOnSpeech')} value={getField(['talk', 'interruptOnSpeech']) === true} onChange={v => setField(['talk', 'interruptOnSpeech'], v)} />
       </ConfigSection>
 

@@ -915,6 +915,7 @@
   "audioCommand": "कमांड",
   "audioModelId": "मॉडल ID",
   "audioApiKey": "API कुंजी",
+  "ttsOpenaiBaseUrl": "OpenAI बेस URL",
   "audioInterrupt": "बोलने पर बाधित करें",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",

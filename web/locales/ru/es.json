@@ -915,6 +915,7 @@
   "audioCommand": "Команда",
   "audioModelId": "ID модели",
   "audioApiKey": "Ключ API",
+  "ttsOpenaiBaseUrl": "Базовый URL OpenAI",
   "audioInterrupt": "Прерывать при речи",
   "ttsProviderElevenLabs": "ElevenLabs",
   "ttsProviderOpenAI": "OpenAI",
