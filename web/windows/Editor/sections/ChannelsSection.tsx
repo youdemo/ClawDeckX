@@ -510,7 +510,11 @@ export const ChannelsSection: React.FC<SectionProps> = ({ config, setField, getF
             <NumberField label={es.mediaMaxMb || 'Media Max MB'} value={g(['mediaMaxMb'])} onChange={v => s(['mediaMaxMb'], v)} placeholder="25" tooltip={tip('mediaMaxMb')} />
             <SelectField label={es.reactionNotifications || 'Reaction Notifications'} value={g(['reactionNotifications']) || 'own'} onChange={v => s(['reactionNotifications'], v)} options={[...reactionNotifications(es), { value: 'allowlist', label: es.optAllowlist }]} tooltip={tip('reactionNotifications')} />
             <SwitchField label={es.pluralKit} value={g(['pluralkit', 'enabled']) === true} onChange={v => s(['pluralkit', 'enabled'], v)} tooltip={es.tipPluralKit} />
-            <SwitchField label={es.allowBots || 'Allow Bots'} value={g(['allowBots']) === true} onChange={v => s(['allowBots'], v)} tooltip={es.tipAllowBots} />
+            <SelectField label={es.allowBots || 'Allow Bots'} value={String(g(['allowBots']) ?? 'false')} onChange={v => s(['allowBots'], v === 'true' ? true : v === 'false' ? false : v)} options={[
+              { value: 'false', label: es.optOff },
+              { value: 'true', label: es.optOn },
+              { value: 'mentions', label: es.optAllowBotsMentions || 'Mentions Only' },
+            ]} tooltip={es.tipAllowBots} />
             <TextField label={es.proxy || 'Proxy'} value={g(['proxy']) || ''} onChange={v => s(['proxy'], v)} placeholder="http://host:port" tooltip={tip('proxy')} />
             <TextField label={es.responsePrefix || 'Response Prefix'} value={g(['responsePrefix']) || ''} onChange={v => s(['responsePrefix'], v)} tooltip={tip('responsePrefix')} />
             <TextField label={es.ackReaction || 'Ack Reaction'} value={g(['ackReaction']) || ''} onChange={v => s(['ackReaction'], v)} placeholder="👀" tooltip={tip('ackReaction')} />
