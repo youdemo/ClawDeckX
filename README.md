@@ -105,8 +105,16 @@ Seamlessly manage both local and remote OpenClaw gateways. Switch between gatewa
 
 ### One-Click Install | 一键安装
 
+**macOS / Linux**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ClawDeckX/ClawDeckX/main/install.sh | bash
+```
+
+**Windows (PowerShell)**
+
+```powershell
+irm https://raw.githubusercontent.com/ClawDeckX/ClawDeckX/main/install.ps1 | iex
 ```
 
 ### Manual Download | 手动下载
