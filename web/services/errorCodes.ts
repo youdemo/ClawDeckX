@@ -34,20 +34,6 @@ const errorMaps: Record<string, ErrorMap> = {
   'zh-TW': zhTwErrors,
 };
 
-// Client-only error codes not from backend (added at runtime).
-// These are merged on top of locale JSON so they work even if not in the JSON files.
-const clientOnlyErrors: Record<string, { zh: string; en: string }> = {
-  MODEL_NO_API_KEY: { zh: '请先填写 API Key', en: 'Please enter API Key first' },
-  MODEL_NO_MODEL: { zh: '请先选择模型', en: 'Please select a model first' },
-  CONFIG_VALIDATE_FAILED: { zh: '配置校验失败', en: 'Config validation failed' },
-  CONFIG_VALIDATE_CLI_UNAVAILABLE: { zh: '配置校验所需的 OpenClaw CLI 不可用', en: 'OpenClaw CLI is unavailable for config validation' },
-  SNAPSHOT_CREATE_FAILED: { zh: '备份创建失败', en: 'Backup creation failed' },
-  SNAPSHOT_IMPORT_FAILED: { zh: '备份导入失败', en: 'Backup import failed' },
-  SNAPSHOT_UNLOCK_FAILED: { zh: '备份解锁失败', en: 'Backup unlock failed' },
-  SNAPSHOT_PLAN_FAILED: { zh: '备份恢复计划失败', en: 'Backup restore plan failed' },
-  SNAPSHOT_RESTORE_FAILED: { zh: '备份恢复失败', en: 'Backup restore failed' },
-  SYSTEM_METHOD_NOT_ALLOWED: { zh: '方法不允许', en: 'Method not allowed' },
-};
 
 // Known backend detail messages → localized translations.
 const detailMessages: Record<string, { zh: string; en: string }> = {
@@ -68,19 +54,13 @@ function getLang(): string {
 
 /**
  * Look up a localized error message for the given code.
- * Priority: current language errors.json → client-only overlay → English fallback → undefined.
+ * Priority: current language errors.json → English fallback → undefined.
  */
 function lookupError(code: string, lang: string): string | undefined {
   // 1. Try current language errors.json
   const map = errorMaps[lang];
   if (map && map[code]) return map[code];
-  // 2. Try client-only overlay (zh/en only)
-  const overlay = clientOnlyErrors[code];
-  if (overlay) {
-    const overlayLang = lang === 'zh' || lang === 'zh-TW' ? 'zh' : 'en';
-    return overlay[overlayLang];
-  }
-  // 3. Fall back to English errors.json
+  // 2. Fall back to English errors.json
   if (lang !== 'en' && enErrors[code]) return enErrors[code];
   return undefined;
 }

@@ -56,7 +56,7 @@ const ServicePanel: React.FC<ServicePanelProps> = ({ status, healthCheckEnabled,
       setDaemon(result);
       toast('success', gw.daemonInstallOk || 'Service installed');
     } catch (err: any) {
-      toast('error', `${gw.daemonInstallFailed || 'Install failed'}: ${err?.message || err}`);
+      toast('error', err?.message || gw.daemonInstallFailed || 'Install failed');
     } finally {
       setActionLoading(null);
     }
@@ -69,7 +69,7 @@ const ServicePanel: React.FC<ServicePanelProps> = ({ status, healthCheckEnabled,
       setDaemon(result);
       toast('success', gw.daemonUninstallOk || 'Service removed');
     } catch (err: any) {
-      toast('error', `${gw.daemonUninstallFailed || 'Uninstall failed'}: ${err?.message || err}`);
+      toast('error', err?.message || gw.daemonUninstallFailed || 'Uninstall failed');
     } finally {
       setActionLoading(null);
     }

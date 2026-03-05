@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "기본 제공 템플릿은 읽기 전용입니다",
 
   "DAEMON_INSTALL_FAILED": "서비스 설치 실패",
-  "DAEMON_UNINSTALL_FAILED": "서비스 제거 실패"
+  "DAEMON_UNINSTALL_FAILED": "서비스 제거 실패",
+
+  "MODEL_NO_API_KEY": "먼저 API 키를 입력하세요",
+  "MODEL_NO_MODEL": "먼저 모델을 선택하세요",
+  "CONFIG_VALIDATE_FAILED": "설정 검증 실패",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "설정 검증에 필요한 OpenClaw CLI를 사용할 수 없습니다",
+  "SNAPSHOT_CREATE_FAILED": "백업 생성 실패",
+  "SNAPSHOT_IMPORT_FAILED": "백업 가져오기 실패",
+  "SNAPSHOT_UNLOCK_FAILED": "백업 잠금 해제 실패",
+  "SNAPSHOT_PLAN_FAILED": "백업 복원 계획 실패",
+  "SNAPSHOT_RESTORE_FAILED": "백업 복원 실패",
+  "SYSTEM_METHOD_NOT_ALLOWED": "허용되지 않는 메서드"
 }

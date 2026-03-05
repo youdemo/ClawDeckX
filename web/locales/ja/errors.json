@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "組み込みテンプレートは読み取り専用です",
 
   "DAEMON_INSTALL_FAILED": "サービスのインストールに失敗しました",
-  "DAEMON_UNINSTALL_FAILED": "サービスのアンインストールに失敗しました"
+  "DAEMON_UNINSTALL_FAILED": "サービスのアンインストールに失敗しました",
+
+  "MODEL_NO_API_KEY": "先にAPIキーを入力してください",
+  "MODEL_NO_MODEL": "先にモデルを選択してください",
+  "CONFIG_VALIDATE_FAILED": "設定の検証に失敗しました",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "設定検証に必要なOpenClaw CLIが利用できません",
+  "SNAPSHOT_CREATE_FAILED": "バックアップの作成に失敗しました",
+  "SNAPSHOT_IMPORT_FAILED": "バックアップのインポートに失敗しました",
+  "SNAPSHOT_UNLOCK_FAILED": "バックアップのロック解除に失敗しました",
+  "SNAPSHOT_PLAN_FAILED": "バックアップの復元計画に失敗しました",
+  "SNAPSHOT_RESTORE_FAILED": "バックアップの復元に失敗しました",
+  "SYSTEM_METHOD_NOT_ALLOWED": "メソッドが許可されていません"
 }

@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "内置模板只读",
 
   "DAEMON_INSTALL_FAILED": "服务安装失败",
-  "DAEMON_UNINSTALL_FAILED": "服务卸载失败"
+  "DAEMON_UNINSTALL_FAILED": "服务卸载失败",
+
+  "MODEL_NO_API_KEY": "请先填写 API Key",
+  "MODEL_NO_MODEL": "请先选择模型",
+  "CONFIG_VALIDATE_FAILED": "配置校验失败",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "配置校验所需的 OpenClaw CLI 不可用",
+  "SNAPSHOT_CREATE_FAILED": "备份创建失败",
+  "SNAPSHOT_IMPORT_FAILED": "备份导入失败",
+  "SNAPSHOT_UNLOCK_FAILED": "备份解锁失败",
+  "SNAPSHOT_PLAN_FAILED": "备份恢复计划失败",
+  "SNAPSHOT_RESTORE_FAILED": "备份恢复失败",
+  "SYSTEM_METHOD_NOT_ALLOWED": "方法不允许"
 }

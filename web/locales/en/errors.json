@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "Built-in templates are read-only",
 
   "DAEMON_INSTALL_FAILED": "Service installation failed",
-  "DAEMON_UNINSTALL_FAILED": "Service uninstallation failed"
+  "DAEMON_UNINSTALL_FAILED": "Service uninstallation failed",
+
+  "MODEL_NO_API_KEY": "Please enter API Key first",
+  "MODEL_NO_MODEL": "Please select a model first",
+  "CONFIG_VALIDATE_FAILED": "Config validation failed",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "OpenClaw CLI is unavailable for config validation",
+  "SNAPSHOT_CREATE_FAILED": "Backup creation failed",
+  "SNAPSHOT_IMPORT_FAILED": "Backup import failed",
+  "SNAPSHOT_UNLOCK_FAILED": "Backup unlock failed",
+  "SNAPSHOT_PLAN_FAILED": "Backup restore plan failed",
+  "SNAPSHOT_RESTORE_FAILED": "Backup restore failed",
+  "SYSTEM_METHOD_NOT_ALLOWED": "Method not allowed"
 }

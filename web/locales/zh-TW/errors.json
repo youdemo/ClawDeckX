@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "內建範本唯讀",
 
   "DAEMON_INSTALL_FAILED": "服務安裝失敗",
-  "DAEMON_UNINSTALL_FAILED": "服務解除安裝失敗"
+  "DAEMON_UNINSTALL_FAILED": "服務解除安裝失敗",
+
+  "MODEL_NO_API_KEY": "請先填寫 API Key",
+  "MODEL_NO_MODEL": "請先選擇模型",
+  "CONFIG_VALIDATE_FAILED": "設定驗證失敗",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "設定驗證所需的 OpenClaw CLI 不可用",
+  "SNAPSHOT_CREATE_FAILED": "備份建立失敗",
+  "SNAPSHOT_IMPORT_FAILED": "備份匯入失敗",
+  "SNAPSHOT_UNLOCK_FAILED": "備份解鎖失敗",
+  "SNAPSHOT_PLAN_FAILED": "備份還原計畫失敗",
+  "SNAPSHOT_RESTORE_FAILED": "備份還原失敗",
+  "SYSTEM_METHOD_NOT_ALLOWED": "方法不允許"
 }

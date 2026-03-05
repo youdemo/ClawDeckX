@@ -93,5 +93,16 @@
   "TEMPLATE_BUILTIN_READONLY": "القوالب المدمجة للقراءة فقط",
 
   "DAEMON_INSTALL_FAILED": "فشل تثبيت الخدمة",
-  "DAEMON_UNINSTALL_FAILED": "فشل إلغاء تثبيت الخدمة"
+  "DAEMON_UNINSTALL_FAILED": "فشل إلغاء تثبيت الخدمة",
+
+  "MODEL_NO_API_KEY": "يرجى إدخال مفتاح API أولاً",
+  "MODEL_NO_MODEL": "يرجى اختيار نموذج أولاً",
+  "CONFIG_VALIDATE_FAILED": "فشل التحقق من الإعدادات",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "أداة OpenClaw CLI غير متاحة للتحقق من الإعدادات",
+  "SNAPSHOT_CREATE_FAILED": "فشل إنشاء النسخة الاحتياطية",
+  "SNAPSHOT_IMPORT_FAILED": "فشل استيراد النسخة الاحتياطية",
+  "SNAPSHOT_UNLOCK_FAILED": "فشل فتح قفل النسخة الاحتياطية",
+  "SNAPSHOT_PLAN_FAILED": "فشل خطة استعادة النسخة الاحتياطية",
+  "SNAPSHOT_RESTORE_FAILED": "فشل استعادة النسخة الاحتياطية",
+  "SYSTEM_METHOD_NOT_ALLOWED": "الطريقة غير مسموح بها"
 }

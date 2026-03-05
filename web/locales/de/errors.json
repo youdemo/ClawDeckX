@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "Eingebaute Vorlagen sind schreibgeschützt",
 
   "DAEMON_INSTALL_FAILED": "Dienstinstallation fehlgeschlagen",
-  "DAEMON_UNINSTALL_FAILED": "Dienstdeinstallation fehlgeschlagen"
+  "DAEMON_UNINSTALL_FAILED": "Dienstdeinstallation fehlgeschlagen",
+
+  "MODEL_NO_API_KEY": "Bitte zuerst den API-Schlüssel eingeben",
+  "MODEL_NO_MODEL": "Bitte zuerst ein Modell auswählen",
+  "CONFIG_VALIDATE_FAILED": "Konfigurationsvalidierung fehlgeschlagen",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "OpenClaw CLI für Konfigurationsvalidierung nicht verfügbar",
+  "SNAPSHOT_CREATE_FAILED": "Sicherungserstellung fehlgeschlagen",
+  "SNAPSHOT_IMPORT_FAILED": "Sicherungsimport fehlgeschlagen",
+  "SNAPSHOT_UNLOCK_FAILED": "Sicherungsentschlüsselung fehlgeschlagen",
+  "SNAPSHOT_PLAN_FAILED": "Sicherungswiederherstellungsplan fehlgeschlagen",
+  "SNAPSHOT_RESTORE_FAILED": "Sicherungswiederherstellung fehlgeschlagen",
+  "SYSTEM_METHOD_NOT_ALLOWED": "Methode nicht erlaubt"
 }

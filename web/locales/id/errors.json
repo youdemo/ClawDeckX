@@ -93,5 +93,16 @@
   "TEMPLATE_BUILTIN_READONLY": "Template bawaan hanya-baca",
 
   "DAEMON_INSTALL_FAILED": "Gagal menginstal layanan",
-  "DAEMON_UNINSTALL_FAILED": "Gagal menghapus layanan"
+  "DAEMON_UNINSTALL_FAILED": "Gagal menghapus layanan",
+
+  "MODEL_NO_API_KEY": "Masukkan API Key terlebih dahulu",
+  "MODEL_NO_MODEL": "Pilih model terlebih dahulu",
+  "CONFIG_VALIDATE_FAILED": "Validasi konfigurasi gagal",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "OpenClaw CLI tidak tersedia untuk validasi konfigurasi",
+  "SNAPSHOT_CREATE_FAILED": "Gagal membuat cadangan",
+  "SNAPSHOT_IMPORT_FAILED": "Gagal mengimpor cadangan",
+  "SNAPSHOT_UNLOCK_FAILED": "Gagal membuka kunci cadangan",
+  "SNAPSHOT_PLAN_FAILED": "Gagal merencanakan pemulihan cadangan",
+  "SNAPSHOT_RESTORE_FAILED": "Gagal memulihkan cadangan",
+  "SYSTEM_METHOD_NOT_ALLOWED": "Metode tidak diizinkan"
 }

@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "Templates integrados são somente leitura",
 
   "DAEMON_INSTALL_FAILED": "Falha na instalação do serviço",
-  "DAEMON_UNINSTALL_FAILED": "Falha na desinstalação do serviço"
+  "DAEMON_UNINSTALL_FAILED": "Falha na desinstalação do serviço",
+
+  "MODEL_NO_API_KEY": "Insira a chave de API primeiro",
+  "MODEL_NO_MODEL": "Selecione um modelo primeiro",
+  "CONFIG_VALIDATE_FAILED": "Falha na validação da configuração",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "OpenClaw CLI indisponível para validação de configuração",
+  "SNAPSHOT_CREATE_FAILED": "Falha ao criar backup",
+  "SNAPSHOT_IMPORT_FAILED": "Falha ao importar backup",
+  "SNAPSHOT_UNLOCK_FAILED": "Falha ao desbloquear backup",
+  "SNAPSHOT_PLAN_FAILED": "Falha no plano de restauração de backup",
+  "SNAPSHOT_RESTORE_FAILED": "Falha ao restaurar backup",
+  "SYSTEM_METHOD_NOT_ALLOWED": "Método não permitido"
 }

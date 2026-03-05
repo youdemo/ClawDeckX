@@ -107,5 +107,16 @@
   "TEMPLATE_BUILTIN_READONLY": "Встроенные шаблоны доступны только для чтения",
 
   "DAEMON_INSTALL_FAILED": "Ошибка установки службы",
-  "DAEMON_UNINSTALL_FAILED": "Ошибка удаления службы"
+  "DAEMON_UNINSTALL_FAILED": "Ошибка удаления службы",
+
+  "MODEL_NO_API_KEY": "Сначала введите API-ключ",
+  "MODEL_NO_MODEL": "Сначала выберите модель",
+  "CONFIG_VALIDATE_FAILED": "Ошибка валидации конфигурации",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "OpenClaw CLI недоступен для валидации конфигурации",
+  "SNAPSHOT_CREATE_FAILED": "Ошибка создания резервной копии",
+  "SNAPSHOT_IMPORT_FAILED": "Ошибка импорта резервной копии",
+  "SNAPSHOT_UNLOCK_FAILED": "Ошибка разблокировки резервной копии",
+  "SNAPSHOT_PLAN_FAILED": "Ошибка плана восстановления резервной копии",
+  "SNAPSHOT_RESTORE_FAILED": "Ошибка восстановления резервной копии",
+  "SYSTEM_METHOD_NOT_ALLOWED": "Метод не разрешён"
 }

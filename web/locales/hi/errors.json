@@ -93,5 +93,16 @@
   "TEMPLATE_BUILTIN_READONLY": "अंतर्निहित टेम्पलेट केवल पढ़ने योग्य हैं",
 
   "DAEMON_INSTALL_FAILED": "सेवा स्थापना विफल",
-  "DAEMON_UNINSTALL_FAILED": "सेवा स्थापना रद्द विफल"
+  "DAEMON_UNINSTALL_FAILED": "सेवा स्थापना रद्द विफल",
+
+  "MODEL_NO_API_KEY": "कृपया पहले API कुंजी दर्ज करें",
+  "MODEL_NO_MODEL": "कृपया पहले एक मॉडल चुनें",
+  "CONFIG_VALIDATE_FAILED": "कॉन्फ़िगरेशन सत्यापन विफल",
+  "CONFIG_VALIDATE_CLI_UNAVAILABLE": "कॉन्फ़िगरेशन सत्यापन के लिए OpenClaw CLI उपलब्ध नहीं है",
+  "SNAPSHOT_CREATE_FAILED": "बैकअप बनाना विफल",
+  "SNAPSHOT_IMPORT_FAILED": "बैकअप आयात विफल",
+  "SNAPSHOT_UNLOCK_FAILED": "बैकअप अनलॉक विफल",
+  "SNAPSHOT_PLAN_FAILED": "बैकअप पुनर्स्थापना योजना विफल",
+  "SNAPSHOT_RESTORE_FAILED": "बैकअप पुनर्स्थापना विफल",
+  "SYSTEM_METHOD_NOT_ALLOWED": "विधि अनुमत नहीं है"
 }
