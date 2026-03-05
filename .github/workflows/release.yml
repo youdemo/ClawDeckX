@@ -171,3 +171,11 @@ jobs:
             --tag ${REPO}:latest \
             ${REPO}:${VERSION}-amd64 \
             ${REPO}:${VERSION}-arm64
+
+      - name: Sync README to Docker Hub
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ secrets.DOCKERHUB_USERNAME }}/clawdeckx
+          readme-filepath: ./README.md
