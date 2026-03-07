@@ -34,6 +34,8 @@
   "noProfiles": "暫無閘道器配置，點選新增",
   "local": "本地",
   "remote": "遠端",
+  "localGateway": "本地閘道",
+  "connectionHttpOnlyWarn": "HTTP 可達但 WebSocket 連線失敗 — 日誌和儀表板可能無法使用",
   "heartbeatAutoRestart": "守護模式",
   "heartbeatDesc": "看門狗連續 3 次探測失敗後自動重啟閘道器",
   "heartbeatOK": "心跳正常",
@@ -99,6 +101,7 @@
   "runtimeUnknown": "未知",
   "openRelated": "開啟相關",
   "loading": "載入中...",
+  "detecting": "偵測中...",
   "refresh": "重新整理",
   "preferLabelEn": false,
   "kill": "強制終止",
@@ -132,7 +135,6 @@
   "rpcPresets": "預設 ▾",
   "rpcRecent": "最近使用",
   "deleteProfile": "刪除閘道器",
-  "detecting": "偵測中...",
   "channels": "頻道",
   "channelName": "頻道",
   "channelStatus": "狀態",
@@ -175,5 +177,7 @@
   "daemonUninstallFailed": "服務移除失敗",
   "daemonStatusFailed": "無法查詢背景服務狀態",
   "daemonRemoteHint": "遠端閘道器已作為服務執行。背景服務管理僅適用於本機閘道器。",
-  "daemonAlreadyManaged": "已由系統服務管理"
+  "daemonAlreadyManaged": "已由系統服務管理",
+  "wsDisconnected": "資料通道未連線",
+  "wsDisconnectedHint": "閘道埠可達但 WebSocket 資料通道未建立，日誌和儀表板資料將不可用。請檢查：1) 金鑰是否正確 2) 遠端伺服器防火牆是否允許 WebSocket 連線 3) 是否有反向代理阻斷了 WebSocket 升級"
 }

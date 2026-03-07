@@ -117,8 +117,8 @@
     "viewSession": "Ver"
   },
   "templateManager": {
-    "title": "Gerenciador de Templates",
-    "subtitle": "Navegar e implantar templates",
+    "title": "Centro de Conhecimento",
+    "subtitle": "Cenários, agentes, base de conhecimento e templates",
     "scenarios": "Cenários",
     "multiAgent": "Multi-Agente",
     "agents": "Presets de Agentes",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Gerenciar Fontes"
+    "manageSource": "Gerenciar Fontes",
+    "sourceNameBuiltin": "Modelos integrados",
+    "sourceNameCdn": "CDN oficial",
+    "sourceNameGithub": "Modelos oficiais online",
+    "sourceDescBuiltin": "Modelos pré-instalados, disponíveis offline, sem necessidade de rede",
+    "sourceDescCdn": "Entrega rápida por CDN com cache automático, atualizado regularmente",
+    "sourceDescGithub": "Modelos da comunidade no GitHub, sempre a versão mais recente",
+    "labelPath": "Caminho",
+    "labelUrl": "URL",
+    "labelRepo": "Repositório",
+    "labelFallback": "Fallback"
   },
   "multiAgentDeploy": {
     "title": "Implantar Sistema Multi-Agente",

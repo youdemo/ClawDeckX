@@ -117,8 +117,8 @@
     "viewSession": "Anzeigen"
   },
   "templateManager": {
-    "title": "Vorlagenverwaltung",
-    "subtitle": "Vorlagen durchsuchen und bereitstellen",
+    "title": "Wissenszentrum",
+    "subtitle": "Szenarien, Agenten, Wissensbasis und Vorlagen",
     "scenarios": "Szenarien",
     "multiAgent": "Multi-Agent",
     "agents": "Agent-Voreinstellungen",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Quellen verwalten"
+    "manageSource": "Quellen verwalten",
+    "sourceNameBuiltin": "Integrierte Vorlagen",
+    "sourceNameCdn": "Offizielles CDN",
+    "sourceNameGithub": "Offizielle Online-Vorlagen",
+    "sourceDescBuiltin": "Vorinstallierte Vorlagen, offline verfügbar, kein Netzwerk erforderlich",
+    "sourceDescCdn": "Schnelle CDN-Bereitstellung mit automatischem Caching, regelmäßig aktualisiert",
+    "sourceDescGithub": "Community-Vorlagen von GitHub, immer die neueste Version",
+    "labelPath": "Pfad",
+    "labelUrl": "URL",
+    "labelRepo": "Repository",
+    "labelFallback": "Fallback"
   },
   "multiAgentDeploy": {
     "title": "Multi-Agent-System bereitstellen",

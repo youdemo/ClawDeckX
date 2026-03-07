@@ -117,8 +117,8 @@
     "viewSession": "查看"
   },
   "templateManager": {
-    "title": "模板管理器",
-    "subtitle": "浏览和部署模板",
+    "title": "知识中心",
+    "subtitle": "场景、代理、知识库与模板",
     "scenarios": "场景模板",
     "multiAgent": "多代理协作",
     "agents": "代理预设",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "管理源"
+    "manageSource": "管理源",
+    "sourceNameBuiltin": "内置模板",
+    "sourceNameCdn": "官方 CDN",
+    "sourceNameGithub": "官方在线模板",
+    "sourceDescBuiltin": "预装模板，离线可用，无需网络",
+    "sourceDescCdn": "CDN 快速分发，自动缓存，定期更新",
+    "sourceDescGithub": "来自 GitHub 的社区模板，始终为最新版本",
+    "labelPath": "路径",
+    "labelUrl": "地址",
+    "labelRepo": "仓库",
+    "labelFallback": "回退源"
   },
   "multiAgentDeploy": {
     "title": "部署多代理系统",

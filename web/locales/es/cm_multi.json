@@ -117,8 +117,8 @@
     "viewSession": "Ver"
   },
   "templateManager": {
-    "title": "Gestor de plantillas",
-    "subtitle": "Explorar y desplegar plantillas",
+    "title": "Centro de conocimiento",
+    "subtitle": "Escenarios, agentes, base de conocimiento y plantillas",
     "scenarios": "Escenarios",
     "multiAgent": "Multi-Agente",
     "agents": "Presets de agente",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Gestionar fuentes"
+    "manageSource": "Gestionar fuentes",
+    "sourceNameBuiltin": "Plantillas integradas",
+    "sourceNameCdn": "CDN oficial",
+    "sourceNameGithub": "Plantillas oficiales en línea",
+    "sourceDescBuiltin": "Plantillas preinstaladas, disponibles sin conexión",
+    "sourceDescCdn": "Entrega rápida por CDN con caché automático, actualización periódica",
+    "sourceDescGithub": "Plantillas comunitarias de GitHub, siempre la última versión",
+    "labelPath": "Ruta",
+    "labelUrl": "URL",
+    "labelRepo": "Repositorio",
+    "labelFallback": "Respaldo"
   },
   "multiAgentDeploy": {
     "title": "Desplegar sistema multi-agente",

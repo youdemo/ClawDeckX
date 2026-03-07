@@ -117,8 +117,8 @@
     "viewSession": "View"
   },
   "templateManager": {
-    "title": "Template Manager",
-    "subtitle": "Browse and deploy templates",
+    "title": "Knowledge Center",
+    "subtitle": "Scenarios, agents, knowledge base and templates",
     "scenarios": "Scenarios",
     "multiAgent": "Multi-Agent",
     "agents": "Agent Presets",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Manage Sources"
+    "manageSource": "Manage Sources",
+    "sourceNameBuiltin": "Built-in Templates",
+    "sourceNameCdn": "Official CDN",
+    "sourceNameGithub": "Official Online Templates",
+    "sourceDescBuiltin": "Pre-installed templates that work offline, no network required",
+    "sourceDescCdn": "Fast CDN delivery with auto-caching, updated regularly",
+    "sourceDescGithub": "Community templates from GitHub, always the latest version",
+    "labelPath": "Path",
+    "labelUrl": "URL",
+    "labelRepo": "Repo",
+    "labelFallback": "Fallback"
   },
   "multiAgentDeploy": {
     "title": "Deploy Multi-Agent System",

@@ -117,8 +117,8 @@
     "viewSession": "보기"
   },
   "templateManager": {
-    "title": "템플릿 관리자",
-    "subtitle": "템플릿 탐색 및 배포",
+    "title": "지식 센터",
+    "subtitle": "시나리오, 에이전트, 지식 베이스 및 템플릿",
     "scenarios": "시나리오",
     "multiAgent": "멀티 에이전트",
     "agents": "에이전트 프리셋",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "소스 관리"
+    "manageSource": "소스 관리",
+    "sourceNameBuiltin": "내장 템플릿",
+    "sourceNameCdn": "공식 CDN",
+    "sourceNameGithub": "공식 온라인 템플릿",
+    "sourceDescBuiltin": "사전 설치된 템플릿, 오프라인 사용 가능, 네트워크 불필요",
+    "sourceDescCdn": "CDN 빠른 배포, 자동 캐시, 정기 업데이트",
+    "sourceDescGithub": "GitHub 커뮤니티 템플릿, 항상 최신 버전",
+    "labelPath": "경로",
+    "labelUrl": "URL",
+    "labelRepo": "저장소",
+    "labelFallback": "대체 소스"
   },
   "multiAgentDeploy": {
     "title": "멀티 에이전트 시스템 배포",

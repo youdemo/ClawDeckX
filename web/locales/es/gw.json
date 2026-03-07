@@ -34,6 +34,8 @@
   "noProfiles": "Sin gateways aún. Haga clic para agregar.",
   "local": "Local",
   "remote": "Remoto",
+  "localGateway": "Gateway Local",
+  "connectionHttpOnlyWarn": "HTTP OK pero WebSocket falló — los registros y el panel pueden no funcionar",
   "heartbeatAutoRestart": "Guardia automática",
   "heartbeatDesc": "Reiniciar automáticamente el gateway tras 3 fallos consecutivos del watchdog",
   "heartbeatOK": "Heartbeat normal",
@@ -175,5 +177,7 @@
   "daemonUninstallFailed": "Error al eliminar el servicio",
   "daemonStatusFailed": "Error al consultar el estado del daemon",
   "daemonRemoteHint": "Los gateways remotos ya se ejecutan como servicios. La gestión de daemons solo está disponible para gateways locales.",
-  "daemonAlreadyManaged": "Ya gestionado por el servicio del sistema"
+  "daemonAlreadyManaged": "Ya gestionado por el servicio del sistema",
+  "wsDisconnected": "Canal de datos desconectado",
+  "wsDisconnectedHint": "El puerto del gateway es accesible pero el canal de datos WebSocket no se ha establecido. Los registros y datos del panel no estarán disponibles. Verifique: 1) El token/secreto es correcto 2) El firewall remoto permite conexiones WebSocket 3) Ningún proxy inverso está bloqueando la actualización WebSocket"
 }

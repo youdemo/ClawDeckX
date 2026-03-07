@@ -34,6 +34,8 @@
   "noProfiles": "ゲートウェイがありません。クリックして追加",
   "local": "ローカル",
   "remote": "リモート",
+  "localGateway": "ローカルゲートウェイ",
+  "connectionHttpOnlyWarn": "HTTP は接続可能ですが WebSocket に失敗しました — ログとダッシュボードが使用できない可能性があります",
   "heartbeatAutoRestart": "自動ガード",
   "heartbeatDesc": "ウォッチドッグの探知が3回連続で失敗するとゲートウェイを自動再起動",
   "heartbeatOK": "ハートビート正常",
@@ -175,5 +177,7 @@
   "daemonUninstallFailed": "サービスの削除に失敗しました",
   "daemonStatusFailed": "デーモンの状態を取得できませんでした",
   "daemonRemoteHint": "リモートゲートウェイは既にサービスとして実行されています。デーモン管理はローカルゲートウェイでのみ利用可能です。",
-  "daemonAlreadyManaged": "既にシステムサービスで管理されています"
+  "daemonAlreadyManaged": "既にシステムサービスで管理されています",
+  "wsDisconnected": "データチャネル切断",
+  "wsDisconnectedHint": "ゲートウェイポートは到達可能ですが、WebSocket データチャネルが確立されていません。ログとダッシュボードデータは利用できません。確認事項：1) トークン/シークレットが正しいか 2) リモートファイアウォールが WebSocket 接続を許可しているか 3) リバースプロキシが WebSocket アップグレードをブロックしていないか"
 }

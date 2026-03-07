@@ -34,6 +34,8 @@
   "noProfiles": "Belum ada gateway. Klik untuk menambah.",
   "local": "Lokal",
   "remote": "Remote",
+  "localGateway": "Gateway Lokal",
+  "connectionHttpOnlyWarn": "HTTP OK tapi WebSocket gagal — log dan dasbor mungkin tidak berfungsi",
   "heartbeatAutoRestart": "Auto Guard",
   "heartbeatDesc": "Restart otomatis gateway setelah 3 kegagalan probe watchdog berturut-turut",
   "heartbeatOK": "Heartbeat OK",
@@ -175,5 +177,7 @@
   "daemonUninstallFailed": "Gagal menghapus layanan",
   "daemonStatusFailed": "Gagal mengambil status daemon",
   "daemonRemoteHint": "Gateway remote sudah berjalan sebagai layanan. Manajemen daemon hanya tersedia untuk gateway lokal.",
-  "daemonAlreadyManaged": "Sudah dikelola oleh layanan sistem"
+  "daemonAlreadyManaged": "Sudah dikelola oleh layanan sistem",
+  "wsDisconnected": "Saluran data terputus",
+  "wsDisconnectedHint": "Port gateway dapat dijangkau tetapi saluran data WebSocket tidak terbentuk. Log dan data dasbor tidak akan tersedia. Periksa: 1) Token/secret benar 2) Firewall remote mengizinkan koneksi WebSocket 3) Tidak ada reverse proxy yang memblokir upgrade WebSocket"
 }

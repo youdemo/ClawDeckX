@@ -117,8 +117,8 @@
     "viewSession": "表示"
   },
   "templateManager": {
-    "title": "テンプレートマネージャー",
-    "subtitle": "テンプレートの閲覧とデプロイ",
+    "title": "ナレッジセンター",
+    "subtitle": "シナリオ、エージェント、ナレッジベースとテンプレート",
     "scenarios": "シナリオ",
     "multiAgent": "マルチエージェント",
     "agents": "エージェントプリセット",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "ソースを管理"
+    "manageSource": "ソースを管理",
+    "sourceNameBuiltin": "組み込みテンプレート",
+    "sourceNameCdn": "公式 CDN",
+    "sourceNameGithub": "公式オンラインテンプレート",
+    "sourceDescBuiltin": "プリインストール済みテンプレート、オフラインで使用可能",
+    "sourceDescCdn": "CDN による高速配信、自動キャッシュ、定期更新",
+    "sourceDescGithub": "GitHub のコミュニティテンプレート、常に最新版",
+    "labelPath": "パス",
+    "labelUrl": "URL",
+    "labelRepo": "リポジトリ",
+    "labelFallback": "フォールバック"
   },
   "multiAgentDeploy": {
     "title": "マルチエージェントシステムをデプロイ",

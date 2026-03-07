@@ -117,8 +117,8 @@
     "viewSession": "عرض"
   },
   "templateManager": {
-    "title": "مدير القوالب",
-    "subtitle": "تصفح ونشر القوالب",
+    "title": "مركز المعرفة",
+    "subtitle": "السيناريوهات والوكلاء وقاعدة المعرفة والقوالب",
     "scenarios": "السيناريوهات",
     "multiAgent": "تعدد الوكلاء",
     "agents": "إعدادات الوكلاء المسبقة",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "إدارة المصادر"
+    "manageSource": "إدارة المصادر",
+    "sourceNameBuiltin": "القوالب المدمجة",
+    "sourceNameCdn": "CDN الرسمي",
+    "sourceNameGithub": "القوالب الرسمية عبر الإنترنت",
+    "sourceDescBuiltin": "قوالب مثبتة مسبقاً، تعمل بدون اتصال بالإنترنت",
+    "sourceDescCdn": "توصيل سريع عبر CDN مع تخزين مؤقت تلقائي، يتم التحديث بانتظام",
+    "sourceDescGithub": "قوالب المجتمع من GitHub، دائماً أحدث إصدار",
+    "labelPath": "المسار",
+    "labelUrl": "الرابط",
+    "labelRepo": "المستودع",
+    "labelFallback": "البديل"
   },
   "multiAgentDeploy": {
     "title": "نشر نظام تعدد الوكلاء",

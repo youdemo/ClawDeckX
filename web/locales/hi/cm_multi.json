@@ -117,8 +117,8 @@
     "viewSession": "देखें"
   },
   "templateManager": {
-    "title": "टेम्पलेट प्रबंधक",
-    "subtitle": "टेम्पलेट ब्राउज़ और तैनात करें",
+    "title": "ज्ञान केंद्र",
+    "subtitle": "परिदृश्य, एजेंट, ज्ञान आधार और टेम्पलेट",
     "scenarios": "परिदृश्य",
     "multiAgent": "मल्टी-एजेंट",
     "agents": "एजेंट प्रीसेट",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "स्रोत प्रबंधित करें"
+    "manageSource": "स्रोत प्रबंधित करें",
+    "sourceNameBuiltin": "अंतर्निहित टेम्पलेट",
+    "sourceNameCdn": "आधिकारिक CDN",
+    "sourceNameGithub": "आधिकारिक ऑनलाइन टेम्पलेट",
+    "sourceDescBuiltin": "पूर्व-स्थापित टेम्पलेट, ऑफ़लाइन उपलब्ध, नेटवर्क की आवश्यकता नहीं",
+    "sourceDescCdn": "स्वचालित कैशिंग के साथ तेज़ CDN वितरण, नियमित रूप से अपडेट",
+    "sourceDescGithub": "GitHub से सामुदायिक टेम्पलेट, हमेशा नवीनतम संस्करण",
+    "labelPath": "पथ",
+    "labelUrl": "URL",
+    "labelRepo": "रिपॉजिटरी",
+    "labelFallback": "फ़ॉलबैक"
   },
   "multiAgentDeploy": {
     "title": "मल्टी-एजेंट सिस्टम तैनात करें",

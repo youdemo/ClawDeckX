@@ -117,8 +117,8 @@
     "viewSession": "Lihat"
   },
   "templateManager": {
-    "title": "Manajer Template",
-    "subtitle": "Jelajahi dan deploy template",
+    "title": "Pusat Pengetahuan",
+    "subtitle": "Skenario, agen, basis pengetahuan, dan template",
     "scenarios": "Skenario",
     "multiAgent": "Multi-Agen",
     "agents": "Preset Agen",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Kelola Sumber"
+    "manageSource": "Kelola Sumber",
+    "sourceNameBuiltin": "Template Bawaan",
+    "sourceNameCdn": "CDN Resmi",
+    "sourceNameGithub": "Template Online Resmi",
+    "sourceDescBuiltin": "Template bawaan, tersedia offline, tidak perlu jaringan",
+    "sourceDescCdn": "Pengiriman cepat via CDN dengan cache otomatis, diperbarui secara berkala",
+    "sourceDescGithub": "Template komunitas dari GitHub, selalu versi terbaru",
+    "labelPath": "Path",
+    "labelUrl": "URL",
+    "labelRepo": "Repositori",
+    "labelFallback": "Cadangan"
   },
   "multiAgentDeploy": {
     "title": "Deploy Sistem Multi-Agen",

@@ -117,8 +117,8 @@
     "viewSession": "Просмотр"
   },
   "templateManager": {
-    "title": "Менеджер шаблонов",
-    "subtitle": "Обзор и развёртывание шаблонов",
+    "title": "Центр знаний",
+    "subtitle": "Сценарии, агенты, база знаний и шаблоны",
     "scenarios": "Сценарии",
     "multiAgent": "Мультиагент",
     "agents": "Пресеты агентов",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Управление источниками"
+    "manageSource": "Управление источниками",
+    "sourceNameBuiltin": "Встроенные шаблоны",
+    "sourceNameCdn": "Официальный CDN",
+    "sourceNameGithub": "Официальные онлайн-шаблоны",
+    "sourceDescBuiltin": "Предустановленные шаблоны, доступны офлайн, сеть не требуется",
+    "sourceDescCdn": "Быстрая доставка через CDN с автокэшированием, регулярное обновление",
+    "sourceDescGithub": "Шаблоны сообщества с GitHub, всегда последняя версия",
+    "labelPath": "Путь",
+    "labelUrl": "URL",
+    "labelRepo": "Репозиторий",
+    "labelFallback": "Резервный"
   },
   "multiAgentDeploy": {
     "title": "Развёртывание мультиагентной системы",

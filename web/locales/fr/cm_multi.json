@@ -117,8 +117,8 @@
     "viewSession": "Voir"
   },
   "templateManager": {
-    "title": "Gestionnaire de modèles",
-    "subtitle": "Parcourir et déployer des modèles",
+    "title": "Centre de connaissances",
+    "subtitle": "Scénarios, agents, base de connaissances et modèles",
     "scenarios": "Scénarios",
     "multiAgent": "Multi-Agent",
     "agents": "Préréglages d'agents",
@@ -251,7 +251,17 @@
     "typeCdn": "CDN",
     "typeGithub": "GitHub",
     "typeApi": "API",
-    "manageSource": "Gérer les sources"
+    "manageSource": "Gérer les sources",
+    "sourceNameBuiltin": "Modèles intégrés",
+    "sourceNameCdn": "CDN officiel",
+    "sourceNameGithub": "Modèles officiels en ligne",
+    "sourceDescBuiltin": "Modèles préinstallés, disponibles hors ligne, aucun réseau requis",
+    "sourceDescCdn": "Distribution rapide par CDN avec mise en cache automatique, mises à jour régulières",
+    "sourceDescGithub": "Modèles communautaires de GitHub, toujours la dernière version",
+    "labelPath": "Chemin",
+    "labelUrl": "URL",
+    "labelRepo": "Dépôt",
+    "labelFallback": "Secours"
   },
   "multiAgentDeploy": {
     "title": "Déployer le système multi-agents",
