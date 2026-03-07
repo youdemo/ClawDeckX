@@ -115,7 +115,7 @@
   "serve.user_create_failed": "⚠️  创建初始用户失败: {{.Error}}",
   "serve.user_created": "✓ 初始管理员用户 '{{.Username}}' 已创建",
   "serve.user_exists": "ℹ️  已存在 {{.Count}} 个用户，跳过初始用户创建",
-  "serve.port_in_use": "❌ 端口 {{.Port}} 已被占用，无法启动服务",
+  "serve.port_in_use": "端口 {{.Port}} 已被占用，无法启动服务",
   "serve.port_in_use_solutions": "解决方案：\n  1. 关闭占用该端口的程序\n  2. 使用 --port 参数指定其他端口：./ClawDeckX serve --port 18792\n     (端口号会自动保存到配置文件，下次启动无需再次指定)",
   "serve.port_occupied_by": "占用进程: {{.Process}}",
   "serve.kill_process_prompt": "是否终止该进程并继续启动？",

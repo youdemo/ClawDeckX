@@ -809,7 +809,7 @@ func RunServe(args []string) int {
 		fmt.Fprintf(os.Stderr, "   %s\n", err.Error())
 		fmt.Fprintln(os.Stderr)
 
-		// Try to find and offer to kill the blocking process
+		// Try to find which process occupies the port
 		if info := proclock.FindPortProcess(cfg.Server.Port); info != nil {
 			procDesc := fmt.Sprintf("PID=%d", info.PID)
 			if info.Name != "" {
@@ -819,45 +819,53 @@ func RunServe(args []string) int {
 			fmt.Fprintf(os.Stderr, "   %s\n", i18n.TLang("en", i18n.MsgServePortOccupiedBy, procData))
 			fmt.Fprintf(os.Stderr, "   %s\n\n", i18n.TLang("zh", i18n.MsgServePortOccupiedBy, procData))
 
-			// Interactive: ask user whether to kill
-			// Use ReadLineFromTTY to read from /dev/tty (Unix) or CON (Windows),
-			// because stdin may be a pipe when launched via `curl ... | bash`.
-			fmt.Fprintf(os.Stderr, "   %s\n", i18n.TLang("en", i18n.MsgServeKillProcessPrompt))
-			fmt.Fprintf(os.Stderr, "   %s [y/N] ", i18n.TLang("zh", i18n.MsgServeKillProcessPrompt))
-			answer, ttyErr := proclock.ReadLineFromTTY()
-			if ttyErr != nil {
-				// Cannot read from terminal — non-interactive, skip kill
-				biPrint(i18n.MsgServePortInUseSolutions)
-				return 1
-			}
-			answer = strings.TrimSpace(strings.ToLower(answer))
-
-			if answer == "y" || answer == "yes" {
-				if err := proclock.KillProcess(info.PID); err != nil {
-					fmt.Fprintf(os.Stderr, "   ❌ %s: %s\n", i18n.TLang("en", i18n.MsgServeKillProcessFailed), err.Error())
-					fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServeKillProcessFailed))
+			// Only offer to kill if the blocking process is another ClawDeckX instance.
+			// Never kill unrelated processes (e.g. openclaw gateway).
+			isSelf := strings.Contains(strings.ToLower(info.Name), "clawdeckx")
+			if isSelf {
+				// Interactive: ask user whether to kill
+				// Use ReadLineFromTTY to read from /dev/tty (Unix) or CON (Windows),
+				// because stdin may be a pipe when launched via `curl ... | bash`.
+				fmt.Fprintf(os.Stderr, "   %s\n", i18n.TLang("en", i18n.MsgServeKillProcessPrompt))
+				fmt.Fprintf(os.Stderr, "   %s [y/N] ", i18n.TLang("zh", i18n.MsgServeKillProcessPrompt))
+				answer, ttyErr := proclock.ReadLineFromTTY()
+				if ttyErr != nil {
+					biPrint(i18n.MsgServePortInUseSolutions)
 					return 1
 				}
-				fmt.Fprintf(os.Stderr, "   ✅ %s (PID %d)\n", i18n.TLang("en", i18n.MsgServeKillProcessOk), info.PID)
-				fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServeKillProcessOk))
+				answer = strings.TrimSpace(strings.ToLower(answer))
 
-				// Wait for port to become available
-				portReady := false
-				for j := 0; j < 20; j++ {
-					time.Sleep(250 * time.Millisecond)
-					if ln2, err2 := net.Listen("tcp", addr); err2 == nil {
-						ln2.Close()
-						portReady = true
-						break
+				if answer == "y" || answer == "yes" {
+					if err := proclock.KillProcess(info.PID); err != nil {
+						fmt.Fprintf(os.Stderr, "   ❌ %s: %s\n", i18n.TLang("en", i18n.MsgServeKillProcessFailed), err.Error())
+						fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServeKillProcessFailed))
+						return 1
 					}
-				}
-				if !portReady {
-					fmt.Fprintf(os.Stderr, "   ❌ %s\n", i18n.TLang("en", i18n.MsgServePortStillInUse))
-					fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServePortStillInUse))
+					fmt.Fprintf(os.Stderr, "   ✅ %s (PID %d)\n", i18n.TLang("en", i18n.MsgServeKillProcessOk), info.PID)
+					fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServeKillProcessOk))
+
+					// Wait for port to become available
+					portReady := false
+					for j := 0; j < 20; j++ {
+						time.Sleep(250 * time.Millisecond)
+						if ln2, err2 := net.Listen("tcp", addr); err2 == nil {
+							ln2.Close()
+							portReady = true
+							break
+						}
+					}
+					if !portReady {
+						fmt.Fprintf(os.Stderr, "   ❌ %s\n", i18n.TLang("en", i18n.MsgServePortStillInUse))
+						fmt.Fprintf(os.Stderr, "      %s\n", i18n.TLang("zh", i18n.MsgServePortStillInUse))
+						return 1
+					}
+					fmt.Fprintln(os.Stderr)
+				} else {
+					biPrint(i18n.MsgServePortInUseSolutions)
 					return 1
 				}
-				fmt.Fprintln(os.Stderr)
 			} else {
+				// Not a ClawDeckX process — do not offer to kill, just show solutions
 				biPrint(i18n.MsgServePortInUseSolutions)
 				return 1
 			}

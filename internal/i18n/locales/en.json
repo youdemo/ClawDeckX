@@ -115,7 +115,7 @@
   "serve.user_create_failed": "⚠️  Failed to create initial user: {{.Error}}",
   "serve.user_created": "✓ Initial admin user '{{.Username}}' created",
   "serve.user_exists": "ℹ️  {{.Count}} user(s) already exist, skipping initial user creation",
-  "serve.port_in_use": "❌ Port {{.Port}} is already in use, cannot start service",
+  "serve.port_in_use": "Port {{.Port}} is already in use, cannot start service",
   "serve.port_in_use_solutions": "Solutions:\n  1. Close the program using this port\n  2. Use --port to specify another port: ./ClawDeckX serve --port 18792\n     (Port will be saved to config, no need to specify again)",
   "serve.port_occupied_by": "Occupied by: {{.Process}}",
   "serve.kill_process_prompt": "Kill this process and continue?",
