@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "No instalado"
     ,"install": "Instalar"
     ,"uninstall": "Desinstalar"
-    ,"installService": "Instalar servicio"
+    ,"installService": "Instalar"
+    ,"uninstallService": "Eliminar"
     ,"serviceUninstalled": "Servicio desinstalado"
+    ,"serviceAutoStartDesc": "Registrar como servicio del sistema para iniciar automáticamente al arrancar. Una vez instalado, el gateway se ejecutará en segundo plano sin intervención manual."
+    ,"serviceAutoStartEnabled": "Inicio automático activado"
+    ,"serviceAutoStartDisabled": "No registrado, inicio manual requerido"
   },
   "hi": {
     "title": "Info del host",

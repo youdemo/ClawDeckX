@@ -290,8 +290,12 @@
     "serviceNotInstalled": "未インストール",
     "install": "インストール",
     "uninstall": "アンインストール",
-    "installService": "サービスをインストール",
-    "serviceUninstalled": "サービスをアンインストールしました"
+    "installService": "インストール",
+    "uninstallService": "削除",
+    "serviceUninstalled": "サービスをアンインストールしました",
+    "serviceAutoStartDesc": "システムサービスとして登録し、起動時に自動開始します。インストール後、ゲートウェイはバックグラウンドで自動実行されます。",
+    "serviceAutoStartEnabled": "自動起動が有効",
+    "serviceAutoStartDisabled": "未登録、手動起動が必要"
   },
   "hi": {
     "title": "ホスト情報",

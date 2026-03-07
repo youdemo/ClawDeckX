@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "Не установлено"
     ,"install": "Установить"
     ,"uninstall": "Удалить"
-    ,"installService": "Установить службу"
+    ,"installService": "Установить"
+    ,"uninstallService": "Удалить"
     ,"serviceUninstalled": "Служба удалена"
+    ,"serviceAutoStartDesc": "Зарегистрировать как системную службу для автоматического запуска при загрузке. После установки шлюз будет работать в фоновом режиме без ручного вмешательства."
+    ,"serviceAutoStartEnabled": "Автозапуск включён"
+    ,"serviceAutoStartDisabled": "Не зарегистрировано, требуется ручной запуск"
   },
   "hi": {
     "title": "Информация о хосте",

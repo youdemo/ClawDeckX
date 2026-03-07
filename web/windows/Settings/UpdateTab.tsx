@@ -216,7 +216,9 @@ const UpdateTab: React.FC<UpdateTabProps> = ({ s, language, inputCls, rowCls }) 
     setServiceLoading(true);
     try {
       if (service === 'openclaw') {
-        await gatewayApi.daemonInstall();
+        const res = await gatewayApi.daemonInstall();
+        // Immediately reflect the installed state from the response
+        setServiceStatus(prev => prev ? { ...prev, openclaw_installed: res.installed } : { openclaw_installed: res.installed, clawdeckx_installed: false });
         toast('success', s.serviceInstalled || 'OpenClaw service installed');
       } else {
         await serviceApi.installClawDeckX();
@@ -234,7 +236,9 @@ const UpdateTab: React.FC<UpdateTabProps> = ({ s, language, inputCls, rowCls }) 
     setServiceLoading(true);
     try {
       if (service === 'openclaw') {
-        await gatewayApi.daemonUninstall();
+        const res = await gatewayApi.daemonUninstall();
+        // Immediately reflect the uninstalled state from the response
+        setServiceStatus(prev => prev ? { ...prev, openclaw_installed: res.installed } : { openclaw_installed: res.installed, clawdeckx_installed: false });
         toast('success', s.serviceUninstalled || 'OpenClaw service uninstalled');
       } else {
         await serviceApi.uninstallClawDeckX();

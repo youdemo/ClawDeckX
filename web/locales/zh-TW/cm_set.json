@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "未安裝"
     ,"install": "安裝"
     ,"uninstall": "解除安裝"
-    ,"installService": "安裝服務"
+    ,"installService": "安裝"
+    ,"uninstallService": "解除安裝"
     ,"serviceUninstalled": "服務已解除安裝"
+    ,"serviceAutoStartDesc": "註冊為系統服務，實現開機自啟。安裝後閘道將在背景自動執行，無需手動干預。"
+    ,"serviceAutoStartEnabled": "已啟用開機自啟"
+    ,"serviceAutoStartDisabled": "未註冊，需手動啟動"
   },
   "hi": {
     "title": "宿主機資訊",

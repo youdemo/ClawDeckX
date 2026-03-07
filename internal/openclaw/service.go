@@ -196,6 +196,12 @@ func (s *Service) Start() error {
 	if s.IsRemote() {
 		return errors.New(i18n.T(i18n.MsgErrRemoteGatewayNoStart))
 	}
+	// Skip if gateway is already running to avoid duplicate processes
+	st := s.Status()
+	if st.Running {
+		logger.Gateway.Info().Str("detail", st.Detail).Msg("gateway already running, skipping start")
+		return nil
+	}
 	switch s.DetectRuntime() {
 	case RuntimeSystemd:
 		return runCommand("systemctl", "--user", "start", "openclaw-gateway")
@@ -585,6 +591,7 @@ func runOk(cmd string, args ...string) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := exec.CommandContext(ctx, cmd, args...)
+	c.SysProcAttr = &sysProcAttrDetached
 	err := c.Run()
 	if err != nil {
 		output.Debugf("Command failed: %s %s err=%s\n", cmd, strings.Join(args, " "), err)
@@ -597,6 +604,7 @@ func runCommand(cmd string, args ...string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := exec.CommandContext(ctx, cmd, args...)
+	c.SysProcAttr = &sysProcAttrDetached
 	out, err := c.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf(i18n.T(i18n.MsgErrCommandFailed), cmd, strings.Join(args, " "), strings.TrimSpace(string(out)))
@@ -609,6 +617,7 @@ func runOutput(cmd string, args ...string) (string, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := exec.CommandContext(ctx, cmd, args...)
+	c.SysProcAttr = &sysProcAttrDetached
 	out, err := c.Output()
 	if err != nil {
 		return "", err
@@ -1140,6 +1149,14 @@ func windowsTaskScriptPath() string {
 	return filepath.Join(stateDir, "gateway.cmd")
 }
 
+func windowsTaskLauncherPath() string {
+	stateDir := ResolveStateDir()
+	if stateDir == "" {
+		return ""
+	}
+	return filepath.Join(stateDir, "gateway-launcher.vbs")
+}
+
 func (s *Service) daemonStatusWindows() DaemonStatusResult {
 	res := DaemonStatusResult{Platform: "windows"}
 	out, err := runOutput("schtasks", "/Query", "/TN", windowsTaskName, "/V", "/FO", "LIST")
@@ -1154,6 +1171,10 @@ func (s *Service) daemonStatusWindows() DaemonStatusResult {
 	}
 	if strings.Contains(upper, "READY") || strings.Contains(upper, "RUNNING") {
 		res.Enabled = true
+	}
+	// Also check if the gateway is actually running (e.g. started manually, not via schtasks)
+	if !res.Active && gatewayPortListening() {
+		res.Active = true
 	}
 	res.Detail = i18n.T(i18n.MsgDaemonStatusTaskInstalled)
 	if res.Enabled {
@@ -1205,29 +1226,52 @@ func (s *Service) daemonInstallWindows() error {
 		return fmt.Errorf(i18n.T(i18n.MsgErrDaemonWriteScript), err)
 	}
 
+	// Generate VBS launcher to run gateway.cmd without a visible console window
+	launcherPath := windowsTaskLauncherPath()
+	if launcherPath != "" {
+		vbs := fmt.Sprintf("Set ws = CreateObject(\"WScript.Shell\")\r\nws.Run \"%s\", 0, False\r\n", scriptPath)
+		if err := os.WriteFile(launcherPath, []byte(vbs), 0644); err != nil {
+			logger.Gateway.Warn().Err(err).Msg("failed to write VBS launcher, falling back to cmd")
+			launcherPath = ""
+		}
+	}
+
 	// Remove existing task if present
 	_ = runCommand("schtasks", "/Delete", "/F", "/TN", windowsTaskName)
+
+	// Determine which script to register: prefer VBS launcher (hidden window) over raw .cmd
+	taskTarget := scriptPath
+	if launcherPath != "" {
+		taskTarget = launcherPath
+	}
 
 	// Create scheduled task: run on logon, limited privileges
 	if err := runCommand("schtasks", "/Create", "/F",
 		"/SC", "ONLOGON",
 		"/RL", "LIMITED",
 		"/TN", windowsTaskName,
-		"/TR", fmt.Sprintf(`"%s"`, scriptPath)); err != nil {
+		"/TR", fmt.Sprintf(`"%s"`, taskTarget)); err != nil {
 		return fmt.Errorf(i18n.T(i18n.MsgErrDaemonCreateTask), err)
 	}
 
-	// Start the task immediately
-	_ = runCommand("schtasks", "/Run", "/TN", windowsTaskName)
+	// Start the task immediately, but only if the gateway is not already running
+	if !portListedBySocketTools(port) {
+		_ = runCommand("schtasks", "/Run", "/TN", windowsTaskName)
+	} else {
+		logger.Gateway.Info().Str("port", port).Msg("gateway already running, skipping schtasks /Run")
+	}
 	return nil
 }
 
 func (s *Service) daemonUninstallWindows() error {
 	_ = runCommand("schtasks", "/End", "/TN", windowsTaskName)
 	_ = runCommand("schtasks", "/Delete", "/F", "/TN", windowsTaskName)
-	// Remove task script
+	// Remove task scripts
 	if scriptPath := windowsTaskScriptPath(); scriptPath != "" {
 		_ = os.Remove(scriptPath)
+	}
+	if launcherPath := windowsTaskLauncherPath(); launcherPath != "" {
+		_ = os.Remove(launcherPath)
 	}
 	return nil
 }

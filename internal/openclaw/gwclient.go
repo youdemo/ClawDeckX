@@ -87,6 +87,10 @@ type GWClientConfig struct {
 
 type GWEventHandler func(event string, payload json.RawMessage)
 
+// restartGracePeriod is the cooldown after a watchdog-triggered restart
+// during which health checks are skipped, giving the gateway time to start.
+const restartGracePeriod = 30 * time.Second
+
 type GWClient struct {
 	cfg       GWClientConfig
 	conn      *websocket.Conn
@@ -101,16 +105,17 @@ type GWClient struct {
 	backoffMs      int
 	backoffCapMs   int
 
-	healthMu        sync.Mutex
-	healthEnabled   bool          // enable heartbeat auto-restart
-	healthInterval  time.Duration // probe interval (default 30s)
-	healthMaxFails  int           // consecutive failure threshold (default 3)
-	healthFailCount int           // current consecutive failure count
-	healthLastOK    time.Time     // last success time
-	healthStopCh    chan struct{}
-	healthRunning   bool
-	onRestart       func() error // restart callback (injected externally)
-	onNotify        func(string) // notify callback (injected externally)
+	healthMu         sync.Mutex
+	healthEnabled    bool          // enable heartbeat auto-restart
+	healthInterval   time.Duration // probe interval (default 30s)
+	healthMaxFails   int           // consecutive failure threshold (default 3)
+	healthFailCount  int           // current consecutive failure count
+	healthLastOK     time.Time     // last success time
+	healthGraceUntil time.Time     // skip health checks until this time (post-restart grace period)
+	healthStopCh     chan struct{}
+	healthRunning    bool
+	onRestart        func() error // restart callback (injected externally)
+	onNotify         func(string) // notify callback (injected externally)
 }
 
 func NewGWClient(cfg GWClientConfig) *GWClient {
@@ -173,11 +178,17 @@ func (c *GWClient) HealthStatus() map[string]interface{} {
 	failCount := c.healthFailCount
 	maxFails := c.healthMaxFails
 	intervalSec := int(c.healthInterval / time.Second)
+	graceUntil := c.healthGraceUntil
 	c.healthMu.Unlock()
 
 	c.mu.Lock()
 	backoffCapMs := c.backoffCapMs
 	c.mu.Unlock()
+
+	graceStr := ""
+	if !graceUntil.IsZero() && time.Now().Before(graceUntil) {
+		graceStr = graceUntil.Format(time.RFC3339)
+	}
 
 	return map[string]interface{}{
 		"enabled":                  enabled,
@@ -186,6 +197,7 @@ func (c *GWClient) HealthStatus() map[string]interface{} {
 		"last_ok":                  lastOK,
 		"interval_sec":             intervalSec,
 		"reconnect_backoff_cap_ms": backoffCapMs,
+		"grace_until":              graceStr,
 	}
 }
 
@@ -202,8 +214,14 @@ func (c *GWClient) healthCheckLoop() {
 		case <-ticker.C:
 			c.healthMu.Lock()
 			enabled := c.healthEnabled
+			graceUntil := c.healthGraceUntil
 			c.healthMu.Unlock()
 			if !enabled {
+				continue
+			}
+			// Skip health checks during post-restart grace period to allow gateway startup
+			if !graceUntil.IsZero() && time.Now().Before(graceUntil) {
+				logger.Gateway.Debug().Time("grace_until", graceUntil).Msg("skipping health check during post-restart grace period")
 				continue
 			}
 
@@ -257,6 +275,7 @@ func (c *GWClient) healthCheckLoop() {
 						Int("consecutive_fails", c.healthFailCount).
 						Msg(i18n.T(i18n.MsgLogHeartbeatThresholdRestart))
 					c.healthFailCount = 0
+					c.healthGraceUntil = time.Now().Add(restartGracePeriod)
 					restartFn := c.onRestart
 					notifyFn := c.onNotify
 					c.healthMu.Unlock()

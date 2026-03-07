@@ -291,8 +291,12 @@
     "serviceNotInstalled": "Not installed",
     "install": "Install",
     "uninstall": "Uninstall",
-    "installService": "Install Service",
-    "serviceUninstalled": "Service uninstalled"
+    "installService": "Install",
+    "uninstallService": "Remove",
+    "serviceUninstalled": "Service uninstalled",
+    "serviceAutoStartDesc": "Register as a system service to automatically start on boot. Once installed, the gateway will run in the background without manual intervention.",
+    "serviceAutoStartEnabled": "Auto-start enabled",
+    "serviceAutoStartDisabled": "Not registered, manual start required"
   },
   "hi": {
     "title": "Host Info",

@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "Nicht installiert"
     ,"install": "Installieren"
     ,"uninstall": "Deinstallieren"
-    ,"installService": "Dienst installieren"
+    ,"installService": "Installieren"
+    ,"uninstallService": "Entfernen"
     ,"serviceUninstalled": "Dienst deinstalliert"
+    ,"serviceAutoStartDesc": "Als Systemdienst registrieren, um beim Hochfahren automatisch zu starten. Nach der Installation läuft das Gateway im Hintergrund ohne manuelles Eingreifen."
+    ,"serviceAutoStartEnabled": "Autostart aktiviert"
+    ,"serviceAutoStartDisabled": "Nicht registriert, manueller Start erforderlich"
   },
   "hi": {
     "title": "Hostinformationen",

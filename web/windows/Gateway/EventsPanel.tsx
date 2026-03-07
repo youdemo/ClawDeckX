@@ -84,15 +84,16 @@ const EventsPanel: React.FC<EventsPanelProps> = ({
           {(['all', 'low', 'medium', 'high', 'critical'] as const).map(risk => (
             <button key={risk} onClick={() => setEventRisk(risk)}
               className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-all ${eventRisk === risk ? 'bg-white/10 text-white' : 'bg-white/5 text-white/40 hover:text-white/70'}`}>
-              {risk}
+              {gw[`risk${risk.charAt(0).toUpperCase()}${risk.slice(1)}` as keyof typeof gw] || risk}
             </button>
           ))}
         </div>
+        <div className="w-px h-5 bg-white/10 shrink-0" />
         <div className="flex items-center gap-1">
           {(['all', 'activity', 'alert'] as const).map(tp => (
             <button key={tp} onClick={() => setEventType(tp)}
               className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-all ${eventType === tp ? 'bg-white/10 text-white' : 'bg-white/5 text-white/40 hover:text-white/70'}`}>
-              {tp}
+              {gw[`type${tp.charAt(0).toUpperCase()}${tp.slice(1)}` as keyof typeof gw] || tp}
             </button>
           ))}
         </div>

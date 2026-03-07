@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "설치되지 않음"
     ,"install": "설치"
     ,"uninstall": "제거"
-    ,"installService": "서비스 설치"
+    ,"installService": "설치"
+    ,"uninstallService": "제거"
     ,"serviceUninstalled": "서비스가 제거되었습니다"
+    ,"serviceAutoStartDesc": "시스템 서비스로 등록하여 부팅 시 자동 시작합니다. 설치 후 게이트웨이가 백그라운드에서 자동 실행됩니다."
+    ,"serviceAutoStartEnabled": "자동 시작 활성화됨"
+    ,"serviceAutoStartDisabled": "미등록, 수동 시작 필요"
   },
   "hi": {
     "title": "호스트 정보",

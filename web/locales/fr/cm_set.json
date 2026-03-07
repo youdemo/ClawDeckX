@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "Non installé"
     ,"install": "Installer"
     ,"uninstall": "Désinstaller"
-    ,"installService": "Installer le service"
+    ,"installService": "Installer"
+    ,"uninstallService": "Supprimer"
     ,"serviceUninstalled": "Service désinstallé"
+    ,"serviceAutoStartDesc": "Enregistrer comme service système pour démarrer automatiquement au démarrage. Une fois installée, la passerelle s'exécutera en arrière-plan sans intervention manuelle."
+    ,"serviceAutoStartEnabled": "Démarrage automatique activé"
+    ,"serviceAutoStartDisabled": "Non enregistré, démarrage manuel requis"
   },
   "hi": {
     "title": "Infos hôte",

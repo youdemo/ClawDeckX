@@ -290,8 +290,12 @@
     ,"serviceNotInstalled": "स्थापित नहीं"
     ,"install": "स्थापित करें"
     ,"uninstall": "अनइंस्टॉल करें"
-    ,"installService": "सेवा स्थापित करें"
+    ,"installService": "स्थापित करें"
+    ,"uninstallService": "हटाएं"
     ,"serviceUninstalled": "सेवा अनइंस्टॉल की गई"
+    ,"serviceAutoStartDesc": "बूट पर स्वचालित रूप से शुरू करने के लिए सिस्टम सेवा के रूप में पंजीकृत करें। स्थापित होने के बाद, गेटवे बिना मैन्युअल हस्तक्षेप के पृष्ठभूमि में चलेगा।"
+    ,"serviceAutoStartEnabled": "ऑटो-स्टार्ट सक्षम"
+    ,"serviceAutoStartDisabled": "पंजीकृत नहीं, मैन्युअल स्टार्ट आवश्यक"
   },
   "hi": {
     "title": "होस्ट जानकारी",
