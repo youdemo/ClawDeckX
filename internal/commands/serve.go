@@ -202,8 +202,25 @@ func RunServe(args []string) int {
 	})
 	svc.SetGWClient(gwClient)
 	gwClient.SetRestartCallback(func() error {
+		if svc.IsRemote() {
+			// Remote mode: only reconnect the WebSocket, never restart the remote gateway
+			// to avoid disrupting other clients due to transient network issues.
+			logger.Gateway.Info().Msg("remote mode: watchdog triggering reconnect instead of gateway restart")
+			gwClient.Reconnect(openclaw.GWClientConfig{
+				Host:  svc.GatewayHost,
+				Port:  svc.GatewayPort,
+				Token: svc.GatewayToken,
+			})
+			return nil
+		}
 		return svc.Restart()
 	})
+	if svc.IsRemote() {
+		// Remote gateways are subject to network jitter; raise the default
+		// failure threshold so transient connectivity loss does not trigger
+		// unnecessary reconnect/restart cycles (6 × 30s = 3 min).
+		gwClient.SetHealthCheckMaxFails(6)
+	}
 	{
 		settingRepo := database.NewSettingRepo()
 		if v, _ := settingRepo.Get("gateway_health_check_interval_sec"); v != "" {
@@ -319,6 +336,7 @@ func RunServe(args []string) int {
 	router.GET("/api/v1/dashboard", dashboardHandler.Get)
 	router.GET("/api/v1/host-info", hostInfoHandler.Get)
 	router.GET("/api/v1/host-info/check-update", hostInfoHandler.CheckUpdate)
+	router.GET("/api/v1/host-info/device-id", hostInfoHandler.DeviceID)
 
 	router.GET("/api/v1/self-update/info", selfUpdateHandler.Info)
 	router.GET("/api/v1/self-update/check", selfUpdateHandler.Check)
@@ -391,7 +409,7 @@ func RunServe(args []string) int {
 	router.GET("/api/v1/doctor", doctorHandler.Run)
 	router.GET("/api/v1/doctor/summary", doctorHandler.Summary)
 	router.GET("/api/v1/doctor/overview", doctorHandler.Overview)
-	router.POST("/api/v1/doctor/fix", doctorHandler.Fix)
+	router.POST("/api/v1/doctor/fix", web.RequireAdmin(doctorHandler.Fix))
 
 	router.POST("/api/v1/recipe/apply-step", web.RequireAdmin(recipeHandler.ApplyStep))
 
@@ -411,54 +429,54 @@ func RunServe(args []string) int {
 
 	router.GET("/api/v1/setup/scan", setupWizardHandler.Scan)
 	router.GET("/api/v1/setup/status", setupWizardHandler.Status)
-	router.POST("/api/v1/setup/install-deps", setupWizardHandler.InstallDeps)
-	router.POST("/api/v1/setup/install-openclaw", setupWizardHandler.InstallOpenClaw)
-	router.POST("/api/v1/setup/configure", setupWizardHandler.Configure)
-	router.POST("/api/v1/setup/start-gateway", setupWizardHandler.StartGateway)
-	router.POST("/api/v1/setup/verify", setupWizardHandler.Verify)
-	router.POST("/api/v1/setup/auto-install", setupWizardHandler.AutoInstall)
-	router.POST("/api/v1/setup/uninstall", setupWizardHandler.Uninstall)
-	router.POST("/api/v1/setup/update-openclaw", setupWizardHandler.UpdateOpenClaw)
+	router.POST("/api/v1/setup/install-deps", web.RequireAdmin(setupWizardHandler.InstallDeps))
+	router.POST("/api/v1/setup/install-openclaw", web.RequireAdmin(setupWizardHandler.InstallOpenClaw))
+	router.POST("/api/v1/setup/configure", web.RequireAdmin(setupWizardHandler.Configure))
+	router.POST("/api/v1/setup/start-gateway", web.RequireAdmin(setupWizardHandler.StartGateway))
+	router.POST("/api/v1/setup/verify", web.RequireAdmin(setupWizardHandler.Verify))
+	router.POST("/api/v1/setup/auto-install", web.RequireAdmin(setupWizardHandler.AutoInstall))
+	router.POST("/api/v1/setup/uninstall", web.RequireAdmin(setupWizardHandler.Uninstall))
+	router.POST("/api/v1/setup/update-openclaw", web.RequireAdmin(setupWizardHandler.UpdateOpenClaw))
 
 	wizardHandler := handlers.NewWizardHandler()
 	wizardHandler.SetGWClient(gwClient)
 	router.POST("/api/v1/setup/test-model", wizardHandler.TestModel)
 	router.POST("/api/v1/setup/discover-models", wizardHandler.DiscoverModels)
 	router.POST("/api/v1/setup/test-channel", wizardHandler.TestChannel)
-	router.POST("/api/v1/config/model-wizard", wizardHandler.SaveModel)
-	router.POST("/api/v1/config/channel-wizard", wizardHandler.SaveChannel)
+	router.POST("/api/v1/config/model-wizard", web.RequireAdmin(wizardHandler.SaveModel))
+	router.POST("/api/v1/config/channel-wizard", web.RequireAdmin(wizardHandler.SaveChannel))
 
 	router.GET("/api/v1/pairing/list", wizardHandler.ListPairingRequests)
-	router.POST("/api/v1/pairing/approve", wizardHandler.ApprovePairingRequest)
+	router.POST("/api/v1/pairing/approve", web.RequireAdmin(wizardHandler.ApprovePairingRequest))
 
 	router.GET("/api/v1/monitor/config", monConfigHandler.GetConfig)
-	router.PUT("/api/v1/monitor/config", monConfigHandler.UpdateConfig)
-	router.POST("/api/v1/monitor/start", monConfigHandler.StartMonitor)
-	router.POST("/api/v1/monitor/stop", monConfigHandler.StopMonitor)
+	router.PUT("/api/v1/monitor/config", web.RequireAdmin(monConfigHandler.UpdateConfig))
+	router.POST("/api/v1/monitor/start", web.RequireAdmin(monConfigHandler.StartMonitor))
+	router.POST("/api/v1/monitor/stop", web.RequireAdmin(monConfigHandler.StopMonitor))
 
 	router.GET("/api/v1/gateway/log", gwLogHandler.GetLog)
 
 	router.GET("/api/v1/gateway/health-check", gatewayHandler.GetHealthCheck)
-	router.PUT("/api/v1/gateway/health-check", gatewayHandler.SetHealthCheck)
+	router.PUT("/api/v1/gateway/health-check", web.RequireAdmin(gatewayHandler.SetHealthCheck))
 
 	router.POST("/api/v1/gateway/diagnose", gwDiagnoseHandler.Diagnose)
 
 	router.GET("/api/v1/gateway/profiles", gwProfileHandler.List)
-	router.POST("/api/v1/gateway/profiles", gwProfileHandler.Create)
-	router.PUT("/api/v1/gateway/profiles", gwProfileHandler.Update)
-	router.DELETE("/api/v1/gateway/profiles", gwProfileHandler.Delete)
-	router.POST("/api/v1/gateway/profiles/activate", gwProfileHandler.Activate)
+	router.POST("/api/v1/gateway/profiles", web.RequireAdmin(gwProfileHandler.Create))
+	router.PUT("/api/v1/gateway/profiles", web.RequireAdmin(gwProfileHandler.Update))
+	router.DELETE("/api/v1/gateway/profiles", web.RequireAdmin(gwProfileHandler.Delete))
+	router.POST("/api/v1/gateway/profiles/activate", web.RequireAdmin(gwProfileHandler.Activate))
 	router.POST("/api/v1/gateway/profiles/test", gwProfileHandler.TestConnection)
 
 	gwProxy := handlers.NewGWProxyHandler(gwClient)
 	router.GET("/api/v1/gw/status", gwProxy.Status)
-	router.POST("/api/v1/gw/reconnect", gwProxy.Reconnect)
+	router.POST("/api/v1/gw/reconnect", web.RequireAdmin(gwProxy.Reconnect))
 	router.GET("/api/v1/gw/health", gwProxy.Health)
 	router.GET("/api/v1/gw/info", gwProxy.GWStatus)
 	router.GET("/api/v1/gw/sessions", gwProxy.SessionsList)
 	router.POST("/api/v1/gw/sessions/preview", gwProxy.SessionsPreview)
-	router.POST("/api/v1/gw/sessions/reset", gwProxy.SessionsReset)
-	router.POST("/api/v1/gw/sessions/delete", gwProxy.SessionsDelete)
+	router.POST("/api/v1/gw/sessions/reset", web.RequireAdmin(gwProxy.SessionsReset))
+	router.POST("/api/v1/gw/sessions/delete", web.RequireAdmin(gwProxy.SessionsDelete))
 	router.GET("/api/v1/gw/models", gwProxy.ModelsList)
 	router.GET("/api/v1/gw/usage/status", gwProxy.UsageStatus)
 	router.GET("/api/v1/gw/usage/cost", gwProxy.UsageCost)
@@ -471,15 +489,15 @@ func RunServe(args []string) int {
 	router.GET("/api/v1/gw/channels", gwProxy.ChannelsStatus)
 	router.GET("/api/v1/gw/logs/tail", gwProxy.LogsTail)
 	router.GET("/api/v1/gw/config/remote", gwProxy.ConfigGetRemote)
-	router.PUT("/api/v1/gw/config/remote", gwProxy.ConfigSetRemote)
-	router.POST("/api/v1/gw/config/reload", gwProxy.ConfigReload)
+	router.PUT("/api/v1/gw/config/remote", web.RequireAdmin(gwProxy.ConfigSetRemote))
+	router.POST("/api/v1/gw/config/reload", web.RequireAdmin(gwProxy.ConfigReload))
 	router.GET("/api/v1/gw/sessions/messages", gwProxy.SessionsPreviewMessages)
 	router.GET("/api/v1/gw/sessions/history", gwProxy.SessionsHistory)
-	router.POST("/api/v1/gw/proxy", gwProxy.GenericProxy)
-	router.POST("/api/v1/gw/skills/install-stream", gwProxy.DepInstallStreamSSE)
-	router.POST("/api/v1/gw/skills/install-async", gwProxy.DepInstallAsync)
+	router.POST("/api/v1/gw/proxy", web.RequireAdmin(gwProxy.GenericProxy))
+	router.POST("/api/v1/gw/skills/install-stream", web.RequireAdmin(gwProxy.DepInstallStreamSSE))
+	router.POST("/api/v1/gw/skills/install-async", web.RequireAdmin(gwProxy.DepInstallAsync))
 	router.GET("/api/v1/gw/skills/config", gwProxy.SkillsConfigGet)
-	router.POST("/api/v1/gw/skills/configure", gwProxy.SkillsConfigure)
+	router.POST("/api/v1/gw/skills/configure", web.RequireAdmin(gwProxy.SkillsConfigure))
 
 	templateHandler := handlers.NewTemplateHandler()
 	// Seed built-in templates on startup
@@ -496,16 +514,16 @@ func RunServe(args []string) int {
 	router.GET("/api/v1/clawhub/list", clawHubHandler.List)
 	router.GET("/api/v1/clawhub/search", clawHubHandler.Search)
 	router.GET("/api/v1/clawhub/skill", clawHubHandler.SkillDetail)
-	router.POST("/api/v1/clawhub/install", clawHubHandler.Install)
-	router.POST("/api/v1/clawhub/install-stream", clawHubHandler.InstallStreamSSE)
-	router.POST("/api/v1/clawhub/uninstall", clawHubHandler.Uninstall)
-	router.POST("/api/v1/clawhub/update", clawHubHandler.Update)
+	router.POST("/api/v1/clawhub/install", web.RequireAdmin(clawHubHandler.Install))
+	router.POST("/api/v1/clawhub/install-stream", web.RequireAdmin(clawHubHandler.InstallStreamSSE))
+	router.POST("/api/v1/clawhub/uninstall", web.RequireAdmin(clawHubHandler.Uninstall))
+	router.POST("/api/v1/clawhub/update", web.RequireAdmin(clawHubHandler.Update))
 	router.GET("/api/v1/clawhub/installed", clawHubHandler.InstalledList)
 
 	pluginInstallHandler := handlers.NewPluginInstallHandler(gwClient)
 	router.GET("/api/v1/plugins/can-install", pluginInstallHandler.CanInstall)
 	router.GET("/api/v1/plugins/check", pluginInstallHandler.CheckInstalled)
-	router.POST("/api/v1/plugins/install", pluginInstallHandler.Install)
+	router.POST("/api/v1/plugins/install", web.RequireAdmin(pluginInstallHandler.Install))
 
 	router.GET("/api/v1/export/activities", exportHandler.ExportActivities)
 	router.GET("/api/v1/export/alerts", exportHandler.ExportAlerts)
