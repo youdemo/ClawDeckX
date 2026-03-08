@@ -236,10 +236,8 @@ func (h *MultiAgentHandler) executeDeploy(w http.ResponseWriter, r *http.Request
 		result.Agents = append(result.Agents, status)
 	}
 
-	// Reload agents after deployment
-	if !req.DryRun && result.DeployedCount > 0 {
-		h.client.Request("agents.reload", map[string]interface{}{})
-	}
+	// Note: agents.reload is not a valid gateway RPC method.
+	// Gateway auto-reloads agents after config changes.
 
 	// Configure main agent to know about deployed subagents
 	// Do this even if all agents were skipped (already exist)
@@ -413,8 +411,13 @@ func (h *MultiAgentHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	agentsCfg["list"] = newList
 
 	// Update config
+	cfgJSON, jsonErr := json.Marshal(currentCfg)
+	if jsonErr != nil {
+		web.Fail(w, r, "CONFIG_SERIALIZE_FAILED", jsonErr.Error(), http.StatusInternalServerError)
+		return
+	}
 	_, err = h.client.Request("config.set", map[string]interface{}{
-		"config": currentCfg,
+		"raw": string(cfgJSON),
 	})
 	if err != nil {
 		web.Fail(w, r, "UPDATE_CONFIG_FAILED", err.Error(), http.StatusBadGateway)
@@ -619,16 +622,20 @@ func (h *MultiAgentHandler) updateOpenClawConfig(template MultiAgentTemplate, pr
 	}
 
 	// Save config
+	cfgJSONBytes, jsonErr := json.Marshal(currentCfg)
+	if jsonErr != nil {
+		return fmt.Errorf("config serialize: %w", jsonErr)
+	}
 	_, err = h.client.RequestWithTimeout("config.set", map[string]interface{}{
-		"config": currentCfg,
+		"raw": string(cfgJSONBytes),
 	}, 15*time.Second)
 
 	if err != nil {
 		return err
 	}
 
-	// Reload agents to pick up new configuration
-	_, _ = h.client.Request("agents.reload", map[string]interface{}{})
+	// Note: agents.reload is not a valid gateway RPC method.
+	// config.set already triggers automatic reload in the gateway.
 
 	return nil
 }

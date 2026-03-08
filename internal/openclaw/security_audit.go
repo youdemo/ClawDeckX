@@ -100,7 +100,7 @@ func RunSecurityAudit() (*SecurityAuditReport, error) {
 func RunSecurityAuditWithGW(client *GWClient) (*SecurityAuditReport, error) {
 	// Path 1: gwclient RPC — fetch config and audit in Go
 	if client != nil && client.IsConnected() {
-		data, err := client.RequestWithTimeout("config.get", map[string]interface{}{"redact": false}, 15*time.Second)
+		data, err := client.RequestWithTimeout("config.get", map[string]interface{}{}, 15*time.Second)
 		if err == nil {
 			report := auditConfigJSON(data)
 			if report != nil {

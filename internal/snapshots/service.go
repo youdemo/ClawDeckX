@@ -508,8 +508,12 @@ func (s *Service) writeResourceViaGateway(logicalPath string, data []byte) (bool
 		if err := json.Unmarshal(data, &current); err != nil {
 			return true, err
 		}
+		raw, jsonErr := json.Marshal(current)
+		if jsonErr != nil {
+			return true, jsonErr
+		}
 		_, err := s.gwClient.RequestWithTimeout("config.set", map[string]interface{}{
-			"config": current,
+			"raw": string(raw),
 		}, 15*time.Second)
 		return true, err
 	}

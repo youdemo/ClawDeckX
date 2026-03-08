@@ -30,6 +30,7 @@ export const authApi = {
 export const hostInfoApi = {
   get: () => get<any>('/api/v1/host-info'),
   checkUpdate: () => get<any>('/api/v1/host-info/check-update'),
+  deviceId: () => get<{ deviceId: string }>('/api/v1/host-info/device-id'),
 };
 
 // ==================== 自更新 ====================
@@ -652,9 +653,16 @@ export const gwApi = {
     rpc('skills.update', params),
   // Config
   configGet: () => rpc('config.get'),
-  configSet: (key: string, value: any) => rpc('config.set', { key, value }),
-  configSetAll: (config: Record<string, any>) => rpc('config.set', { config }),
-  configReload: () => rpc('config.reload'),
+  configSet: (key: string, value: any) => {
+    const patch: Record<string, any> = {};
+    const parts = key.split('.');
+    let obj = patch;
+    for (let i = 0; i < parts.length - 1; i++) { obj[parts[i]] = {}; obj = obj[parts[i]]; }
+    obj[parts[parts.length - 1]] = value;
+    return rpc('config.patch', { raw: JSON.stringify(patch) });
+  },
+  configSetAll: (config: Record<string, any>) => rpc('config.set', { raw: JSON.stringify(config, null, 2) }),
+  configReload: () => Promise.resolve({ ok: true }),
   configApply: (raw: string, baseHash: string) =>
     rpc('config.apply', { raw, baseHash }),
   configPatch: (raw: string, baseHash: string) =>
@@ -724,11 +732,17 @@ export const gwApi = {
     rpc('exec.approval.resolve', { id, decision }),
   // Nodes
   nodeList: () => rpc('node.list'),
+  nodeDescribe: (nodeId: string) => rpc('node.describe', { nodeId }),
+  nodeRename: (nodeId: string, displayName: string) => rpc('node.rename', { nodeId, displayName }),
+  nodePairRequest: (params: { nodeId: string; displayName?: string; platform?: string }) =>
+    rpc('node.pair.request', params),
   nodePairList: () => rpc('node.pair.list'),
-  nodePairApprove: (nodeId: string) =>
-    rpc('node.pair.approve', { nodeId }),
-  nodePairReject: (nodeId: string) =>
-    rpc('node.pair.reject', { nodeId }),
+  nodePairApprove: (requestId: string) =>
+    rpc('node.pair.approve', { requestId }),
+  nodePairReject: (requestId: string) =>
+    rpc('node.pair.reject', { requestId }),
+  nodePairVerify: (nodeId: string, token: string) =>
+    rpc('node.pair.verify', { nodeId, token }),
   // Devices
   devicePairList: () => rpc('device.pair.list'),
   devicePairApprove: (requestId: string) =>
@@ -744,7 +758,7 @@ export const gwApi = {
   channelsLogout: (channel: string) =>
     rpc('channels.logout', { channel }),
   // Logs
-  logsTail: (lines = 100) => rpc('logs.tail', { lines }),
+  logsTail: (limit = 100) => rpc('logs.tail', { limit }),
   // System
   lastHeartbeat: () => rpc('last-heartbeat'),
   setHeartbeats: (enabled: boolean) =>
@@ -752,21 +766,21 @@ export const gwApi = {
   systemEvent: (text: string) =>
     rpc('system-event', { text }),
   // Talk mode
-  talkMode: (mode: string) =>
-    rpc('talk.mode', { mode }),
+  talkMode: (enabled: boolean, phase?: string) =>
+    rpc('talk.mode', { enabled, ...(phase ? { phase } : {}) }),
   // Browser
   browserRequest: (method: string, path: string) =>
     rpc('browser.request', { method, path }),
   // Wizard
   wizardStart: (params: any) => rpc('wizard.start', params),
-  wizardNext: (sessionId: string, input: any) =>
-    rpc('wizard.next', { sessionId, input }),
+  wizardNext: (sessionId: string, input: any, stepId?: string) =>
+    rpc('wizard.next', { sessionId, answer: input != null ? { stepId: stepId || '', value: input } : undefined }),
   wizardCancel: (sessionId: string) =>
     rpc('wizard.cancel', { sessionId }),
   wizardStatus: (sessionId: string) =>
     rpc('wizard.status', { sessionId }),
   // Update
-  updateRun: (params?: { force?: boolean }) =>
+  updateRun: (params?: { sessionKey?: string; note?: string; restartDelayMs?: number; timeoutMs?: number }) =>
     rpc('update.run', params),
   // Web (WhatsApp) login
   webLoginStart: (params?: { force?: boolean; timeoutMs?: number; accountId?: string }) =>

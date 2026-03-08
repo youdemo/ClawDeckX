@@ -349,7 +349,9 @@ const Sessions: React.FC<SessionsProps> = ({ language, pendingSessionKey, onSess
         if (msg.type === 'chat' || msg.type === 'session.message') {
           handleChatEventRef.current(msg.data);
         } else if (msg.type === 'talk.mode') {
-          setTalkMode(msg.data?.mode || null);
+          // Gateway payload: { enabled: boolean, phase?: string, ts: number }
+          const d = msg.data;
+          setTalkMode(d?.enabled ? (d.phase || 'listening') : null);
         }
       } catch { /* ignore */ }
     }, (status) => {

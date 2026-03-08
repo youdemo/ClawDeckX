@@ -19,11 +19,9 @@ func NewGWProxyHandler(client *openclaw.GWClient) *GWProxyHandler {
 	return &GWProxyHandler{client: client}
 }
 
-// Status returns Gateway WS client connection status.
+// Status returns Gateway WS client connection status and diagnostics.
 func (h *GWProxyHandler) Status(w http.ResponseWriter, r *http.Request) {
-	web.OK(w, r, map[string]interface{}{
-		"connected": h.client.IsConnected(),
-	})
+	web.OK(w, r, h.client.ConnectionStatus())
 }
 
 // Reconnect triggers GWClient reconnect using current config.
@@ -209,9 +207,7 @@ func (h *GWProxyHandler) SkillsStatus(w http.ResponseWriter, r *http.Request) {
 
 // ConfigGet returns OpenClaw config.
 func (h *GWProxyHandler) ConfigGet(w http.ResponseWriter, r *http.Request) {
-	data, err := h.client.Request("config.get", map[string]interface{}{
-		"redact": true,
-	})
+	data, err := h.client.Request("config.get", map[string]interface{}{})
 	if err != nil {
 		web.Fail(w, r, "GW_CONFIG_GET_FAILED", err.Error(), http.StatusBadGateway)
 		return
@@ -266,10 +262,19 @@ func (h *GWProxyHandler) LogsTail(w http.ResponseWriter, r *http.Request) {
 	var params interface{}
 	p := map[string]interface{}{}
 	if v := r.URL.Query().Get("lines"); v != "" {
-		p["lines"] = v
+		if n, err := strconv.Atoi(v); err == nil {
+			p["limit"] = n
+		}
+	}
+	if v := r.URL.Query().Get("limit"); v != "" {
+		if n, err := strconv.Atoi(v); err == nil {
+			p["limit"] = n
+		}
 	}
 	if v := r.URL.Query().Get("cursor"); v != "" {
-		p["cursor"] = v
+		if n, err := strconv.Atoi(v); err == nil {
+			p["cursor"] = n
+		}
 	}
 	if len(p) > 0 {
 		params = p
@@ -294,14 +299,28 @@ func (h *GWProxyHandler) ConfigGetRemote(w http.ResponseWriter, r *http.Request)
 
 // ConfigSetRemote updates remote OpenClaw config.
 func (h *GWProxyHandler) ConfigSetRemote(w http.ResponseWriter, r *http.Request) {
-	var params struct {
-		Config interface{} `json:"config"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&params); err != nil {
+	var body map[string]interface{}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		web.Fail(w, r, "INVALID_PARAMS", "invalid request body", http.StatusBadRequest)
 		return
 	}
-	data, err := h.client.RequestWithTimeout("config.set", params, 15*time.Second)
+	// If caller sent { raw, baseHash? }, pass through directly.
+	// If caller sent { config }, serialize config to raw JSON string.
+	rpcParams := body
+	if _, hasRaw := body["raw"]; !hasRaw {
+		if cfg, hasConfig := body["config"]; hasConfig {
+			cfgJSON, jsonErr := json.Marshal(cfg)
+			if jsonErr != nil {
+				web.Fail(w, r, "CONFIG_SERIALIZE_FAILED", jsonErr.Error(), http.StatusInternalServerError)
+				return
+			}
+			rpcParams = map[string]interface{}{"raw": string(cfgJSON)}
+			if bh, ok := body["baseHash"]; ok {
+				rpcParams["baseHash"] = bh
+			}
+		}
+	}
+	data, err := h.client.RequestWithTimeout("config.set", rpcParams, 15*time.Second)
 	if err != nil {
 		web.Fail(w, r, "GW_CONFIG_SET_FAILED", err.Error(), http.StatusBadGateway)
 		return
@@ -310,13 +329,10 @@ func (h *GWProxyHandler) ConfigSetRemote(w http.ResponseWriter, r *http.Request)
 }
 
 // ConfigReload triggers remote config hot-reload.
+// Note: config.reload is not a valid gateway RPC method. config.set/config.apply
+// already trigger automatic reload, so this is a no-op that returns success.
 func (h *GWProxyHandler) ConfigReload(w http.ResponseWriter, r *http.Request) {
-	data, err := h.client.RequestWithTimeout("config.reload", map[string]interface{}{}, 15*time.Second)
-	if err != nil {
-		web.Fail(w, r, "GW_CONFIG_RELOAD_FAILED", err.Error(), http.StatusBadGateway)
-		return
-	}
-	web.OKRaw(w, r, data)
+	web.OK(w, r, map[string]interface{}{"ok": true})
 }
 
 // SessionsPreviewMessages returns session message previews.
@@ -447,16 +463,20 @@ func (h *GWProxyHandler) SkillsConfigure(w http.ResponseWriter, r *http.Request)
 	entries[params.SkillKey] = entry
 
 	// save config
+	cfgJSON, jsonErr := json.Marshal(currentCfg)
+	if jsonErr != nil {
+		web.Fail(w, r, "CONFIG_SERIALIZE_FAILED", jsonErr.Error(), http.StatusInternalServerError)
+		return
+	}
 	saveData, err := h.client.RequestWithTimeout("config.set", map[string]interface{}{
-		"config": currentCfg,
+		"raw": string(cfgJSON),
 	}, 15*time.Second)
 	if err != nil {
 		web.Fail(w, r, "GW_CONFIG_SET_FAILED", err.Error(), http.StatusBadGateway)
 		return
 	}
 
-	// hot-reload
-	h.client.RequestWithTimeout("config.reload", map[string]interface{}{}, 10*time.Second)
+	// Note: config.set already triggers automatic reload in the gateway, no separate reload needed.
 
 	web.OKRaw(w, r, saveData)
 }

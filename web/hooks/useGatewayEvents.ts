@@ -35,8 +35,9 @@ export interface GatewayHeartbeatPayload {
 }
 
 export interface GatewayTalkModePayload {
-  mode?: string;
-  previous?: string;
+  enabled?: boolean;
+  phase?: string | null;
+  ts?: number;
 }
 
 export interface GatewayNodeInvokeRequestPayload {
