@@ -68,5 +68,5 @@ templates/cloudflare-pages/
 # Cloudflare Wrangler cache (contains account ID)
 .wrangler/
 
-# Claude worktrees
-.claude/worktrees/
+# Claude
+.claude/

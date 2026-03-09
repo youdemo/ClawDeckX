@@ -148,7 +148,8 @@
     "disabledLabel": "off",
     "marketFetchFailed": "Market fetch failed",
     "marketSearchFailed": "Search failed",
-    "refreshMarket": "Refresh market data"
+    "refreshMarket": "Refresh market data",
+    "rateLimitInfo": "API Rate Limit"
   },
   "skillsMarket": {
     "title": "Skills Market",

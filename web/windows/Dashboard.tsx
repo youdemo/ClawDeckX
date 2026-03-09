@@ -642,7 +642,12 @@ const Dashboard: React.FC<DashboardProps> = ({ language }) => {
                   <HealthDot ok={gwRunning} />
                   <span className={`text-[10px] font-bold uppercase ${gwRunning ? 'text-mac-green' : 'text-slate-400'}`}>{gwRunning ? d.running : d.stopped}</span>
                 </div>
-                {gwStatus?.version && <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-white/40 font-mono">v{gwStatus.version}</span>}
+                {gwStatus?.connected !== undefined && (
+                  <span className={`flex items-center gap-1.5 px-2.5 py-0.5 rounded-full ${gwStatus.connected ? 'bg-emerald-500/15' : 'bg-red-500/15'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${gwStatus.connected ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                    <span className={`text-[10px] font-bold uppercase ${gwStatus.connected ? 'text-emerald-600 dark:text-mac-green' : 'text-red-500 dark:text-mac-red'}`}>WS {gwStatus.connected ? (gwL?.svcWsConnected || 'Connected') : (gwL?.svcWsDisconnected || 'Disconnected')}</span>
+                  </span>
+                )}
                 {uptimeMs > 0 && (
                   <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-mac-green">
                     {d.uptime}
@@ -654,12 +659,7 @@ const Dashboard: React.FC<DashboardProps> = ({ language }) => {
                 {tickMs > 0 && <span className="text-slate-500 dark:text-white/50">{d.tickLabel}: <b className="text-slate-700 dark:text-white/70 font-mono">{tickMs}{d.unitMillisecond}</b></span>}
                 {gwStatus?.runtime && <span className="text-slate-500 dark:text-white/50">{d.runtimeLabel}: <b className="text-slate-700 dark:text-white/70 font-mono">{gwL?.[`runtime${gwStatus.runtime.charAt(0).toUpperCase()}${gwStatus.runtime.slice(1)}`] || gwStatus.runtime}</b></span>}
                 {gwStatus?.host && <span className="text-slate-500 dark:text-white/50 font-mono">{gwStatus.host}:{gwStatus.port}</span>}
-                {gwStatus?.connected !== undefined && (
-                  <span className={`flex items-center gap-1 ${gwStatus.connected ? 'text-emerald-600 dark:text-mac-green' : 'text-red-500 dark:text-mac-red'}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${gwStatus.connected ? 'bg-emerald-500' : 'bg-red-500'}`} />
-                    WS {gwStatus.connected ? (gwL?.svcWsConnected || 'Connected') : (gwL?.svcWsDisconnected || 'Disconnected')}
-                  </span>
-                )}
+                {hostInfo?.openclawVersion && <span className="text-slate-500 dark:text-white/50"><b className="text-slate-700 dark:text-white/70 font-mono">{hostInfo.openclawVersion.replace(/^v?openclaw\s*/i, '')}</b></span>}
               </div>
             </div>
             <div className="flex flex-col items-end gap-2 shrink-0">

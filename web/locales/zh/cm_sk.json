@@ -148,7 +148,8 @@
     "disabledLabel": "已关闭",
     "marketFetchFailed": "市场数据获取失败",
     "marketSearchFailed": "搜索失败",
-    "refreshMarket": "刷新市场数据"
+    "refreshMarket": "刷新市场数据",
+    "rateLimitInfo": "API 速率限制"
   },
   "skillsMarket": {
     "title": "技能市场",

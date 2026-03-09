@@ -43,7 +43,7 @@ func NewClawHubHandler(gwClient *openclaw.GWClient) *ClawHubHandler {
 		},
 		gwClient: gwClient,
 		cacheMap: make(map[string]*listCache),
-		cacheTTL: 5 * time.Minute,
+		cacheTTL: 30 * time.Minute,
 	}
 }
 
@@ -136,6 +136,17 @@ func (h *ClawHubHandler) List(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
+		// 429 rate limit: return stale cache if available
+		if resp.StatusCode == http.StatusTooManyRequests {
+			h.cacheMu.RLock()
+			if entry, ok := h.cacheMap[cacheKey]; ok {
+				h.cacheMu.RUnlock()
+				logger.Log.Warn().Str("url", apiURL).Msg("ClawHub rate limited, serving stale cache")
+				web.OKRaw(w, r, entry.data)
+				return
+			}
+			h.cacheMu.RUnlock()
+		}
 		logger.Log.Warn().Int("status", resp.StatusCode).Str("url", apiURL).Msg("ClawHub upstream non-200")
 		web.Fail(w, r, "CLAWHUB_UPSTREAM_ERROR", fmt.Sprintf("ClawHub returned %d", resp.StatusCode), http.StatusBadGateway)
 		return
@@ -146,6 +157,19 @@ func (h *ClawHubHandler) List(w http.ResponseWriter, r *http.Request) {
 		logger.Log.Warn().Str("url", apiURL).Msg("ClawHub returned invalid JSON")
 		web.Fail(w, r, "CLAWHUB_INVALID_RESPONSE", "ClawHub returned invalid response", http.StatusBadGateway)
 		return
+	}
+
+	// Inject rate limit headers into response
+	var result map[string]interface{}
+	if json.Unmarshal(body, &result) == nil {
+		result["_rateLimit"] = map[string]string{
+			"limit":     resp.Header.Get("Ratelimit-Limit"),
+			"remaining": resp.Header.Get("Ratelimit-Remaining"),
+			"reset":     resp.Header.Get("Ratelimit-Reset"),
+		}
+		if enriched, err := json.Marshal(result); err == nil {
+			body = enriched
+		}
 	}
 
 	// Store in cache
@@ -197,6 +221,17 @@ func (h *ClawHubHandler) Search(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
+		// 429 rate limit: return stale cache if available
+		if resp.StatusCode == http.StatusTooManyRequests {
+			h.cacheMu.RLock()
+			if entry, ok := h.cacheMap[cacheKey]; ok {
+				h.cacheMu.RUnlock()
+				logger.Log.Warn().Str("url", apiURL).Msg("ClawHub rate limited, serving stale cache")
+				web.OKRaw(w, r, entry.data)
+				return
+			}
+			h.cacheMu.RUnlock()
+		}
 		logger.Log.Warn().Int("status", resp.StatusCode).Str("url", apiURL).Msg("ClawHub search upstream non-200")
 		web.Fail(w, r, "CLAWHUB_UPSTREAM_ERROR", fmt.Sprintf("ClawHub returned %d", resp.StatusCode), http.StatusBadGateway)
 		return

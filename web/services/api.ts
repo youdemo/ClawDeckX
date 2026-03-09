@@ -828,11 +828,20 @@ export const skillTranslationApi = {
 };
 
 // ==================== ClawHub 技能市场 ====================
+export interface ClawHubListResponse {
+  items: any[];
+  nextCursor?: string;
+  _rateLimit?: {
+    limit: string;
+    remaining: string;
+    reset: string;
+  };
+}
 export const clawHubApi = {
   list: (sort = 'newest', limit = 20, cursor?: string) => {
     let url = `/api/v1/clawhub/list?sort=${sort}&limit=${limit}`;
     if (cursor) url += `&cursor=${encodeURIComponent(cursor)}`;
-    return get<any>(url);
+    return get<ClawHubListResponse>(url);
   },
   search: (q: string) => get<any[]>(`/api/v1/clawhub/search?q=${encodeURIComponent(q)}`),
   detail: (slug: string) => get(`/api/v1/clawhub/skill?slug=${encodeURIComponent(slug)}`),

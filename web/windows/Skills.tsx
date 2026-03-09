@@ -299,7 +299,7 @@ const SkillCard: React.FC<{
               <span className="truncate">{sk.requestInstall}</span>
             </button>
           ) : (
-            <button onClick={() => onCopyInstall(skill)}
+            <button onClick={(e) => { e.stopPropagation(); onCopyInstall(skill); }}
               className="flex-1 h-7 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-white/60 hover:bg-slate-200 dark:hover:bg-white/10 text-[10px] font-bold rounded-lg transition-colors flex items-center justify-center gap-1 truncate">
               <span className="material-symbols-outlined text-[12px]">content_copy</span>
               <span className="truncate">{sk.copyInstallInfo}</span>
@@ -400,6 +400,7 @@ const Skills: React.FC<SkillsProps> = ({ language }) => {
   const [marketLoaded, setMarketLoaded] = useState(false);
   const [marketLoadingMore, setMarketLoadingMore] = useState(false);
   const [marketInstalledSlugs, setMarketInstalledSlugs] = useState<Set<string>>(new Set());
+  const [marketRateLimit, setMarketRateLimit] = useState<{ limit: string; remaining: string; reset: string } | null>(null);
   const skillsReqSeqRef = useRef(0);
   const marketListReqSeqRef = useRef(0);
   const marketSearchReqSeqRef = useRef(0);
@@ -797,6 +798,7 @@ const Skills: React.FC<SkillsProps> = ({ language }) => {
         setMarketResults(prev => append ? [...prev, ...items] : items);
         setMarketCursor(res?.nextCursor || null);
         setMarketLoaded(true);
+        if (res?._rateLimit) setMarketRateLimit(res._rateLimit);
         lastErr = null;
         break;
       } catch (err: any) {
@@ -1211,6 +1213,16 @@ const Skills: React.FC<SkillsProps> = ({ language }) => {
           {/* ClawHub 市场 */}
           {activeTab === 'market' && (
             <div className="space-y-4">
+              {/* 速率限制信息 */}
+              {marketRateLimit && (
+                <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 text-[10px]">
+                  <span className="material-symbols-outlined text-[14px] text-slate-400">info</span>
+                  <span className="text-slate-500 dark:text-white/50">
+                    {sk.rateLimitInfo || 'API Rate Limit'}: <b className="text-slate-700 dark:text-white/70">{marketRateLimit.remaining}/{marketRateLimit.limit}</b>
+                    {marketRateLimit.reset && <span className="ms-2 text-slate-400 dark:text-white/30">(reset: {marketRateLimit.reset}s)</span>}
+                  </span>
+                </div>
+              )}
               {/* 加载中 */}
               {(marketLoading || marketSearching) && marketResults.length === 0 && (
                 <div className="flex items-center justify-center py-16 text-slate-400">
@@ -1304,7 +1316,7 @@ const Skills: React.FC<SkillsProps> = ({ language }) => {
                                 {sk.installed}
                               </span>
                             )}
-                            <button onClick={() => handleCopyMarketInstall(item)}
+                            <button onClick={(e) => { e.stopPropagation(); handleCopyMarketInstall(item); }}
                               className="h-6 px-2 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-white/60 hover:bg-slate-200 dark:hover:bg-white/10 text-[10px] font-bold rounded-md transition-colors flex items-center gap-1">
                               <span className="material-symbols-outlined text-[11px]">content_copy</span>
                               <span>{sk.copyInstallInfo}</span>
@@ -1577,7 +1589,7 @@ const Skills: React.FC<SkillsProps> = ({ language }) => {
                     {sk.installed}
                   </span>
                 )}
-                <button onClick={() => handleCopyMarketInstall(marketDetail)}
+                <button onClick={(e) => { e.stopPropagation(); handleCopyMarketInstall(marketDetail); }}
                   className="h-8 px-4 bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-white/60 text-[11px] font-bold rounded-lg hover:bg-slate-200 dark:hover:bg-white/10 flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-[14px]">content_copy</span>
                   {sk.copyInstallInfo}
